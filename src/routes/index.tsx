@@ -1,6 +1,10 @@
 import { ArrowRight, Cpu, Palette, Wrench } from "@gravity-ui/icons";
 import { Button, Card, Chip, Link } from "@heroui/react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Link as RouterLink,
+	useNavigate,
+} from "@tanstack/react-router";
 
 import { LAPTOP_MODELS } from "#/data/laptop-models";
 import { getLaptopById } from "#/data/laptops";
@@ -86,48 +90,62 @@ function Home() {
 							const isLive = model.status === "live";
 							const laptop = getLaptopById(model.id);
 							const back = laptop?.backs[0];
+							const preview = back ? (
+								<svg
+									aria-label={model.name}
+									className="absolute inset-0 h-full w-full p-6 transition-transform duration-500 group-hover:scale-[1.03]"
+									preserveAspectRatio="xMidYMid meet"
+									role="img"
+									viewBox={`${back.view.x} ${back.view.y} ${back.view.width} ${back.view.height}`}
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<title>{model.name}</title>
+									<image
+										height={back.image.height}
+										href={back.image.src}
+										width={back.image.width}
+										x={0}
+										y={0}
+									/>
+								</svg>
+							) : (
+								<div className="absolute inset-0 flex items-center justify-center">
+									<div className="text-center">
+										<div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-foreground/5">
+											<Cpu className="size-7 text-muted" />
+										</div>
+										<p className="text-xs font-medium text-muted">
+											Preview coming soon
+										</p>
+									</div>
+								</div>
+							);
+
+							const previewContainerClass =
+								"group relative block aspect-4/3 overflow-hidden rounded-2xl bg-muted/20 focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none";
+
 							return (
 								<Card
-									className="group flex flex-col overflow-hidden transition-all hover:shadow-lg"
+									className="flex flex-col overflow-hidden transition-all hover:shadow-lg"
 									key={model.id}
 								>
-									<div className="relative aspect-4/3 overflow-hidden rounded-2xl bg-muted/20">
-										{back ? (
-											<svg
-												aria-label={model.name}
-												className="absolute inset-0 h-full w-full transition-transform duration-500 group-hover:scale-[1.03] p-6"
-												preserveAspectRatio="xMidYMid meet"
-												role="img"
-												viewBox={`${back.view.x} ${back.view.y} ${back.view.width} ${back.view.height}`}
-												xmlns="http://www.w3.org/2000/svg"
-											>
-												<title>{model.name}</title>
-												<image
-													height={back.image.height}
-													href={back.image.src}
-													width={back.image.width}
-													x={0}
-													y={0}
-												/>
-											</svg>
-										) : (
-											<div className="absolute inset-0 flex items-center justify-center">
-												<div className="text-center">
-													<div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-foreground/5">
-														<Cpu className="size-7 text-muted" />
-													</div>
-													<p className="text-xs font-medium text-muted">
-														Preview coming soon
-													</p>
-												</div>
-											</div>
-										)}
-										{!isLive && (
+									{isLive ? (
+										<RouterLink
+											aria-label={`Design ${model.name}`}
+											className={previewContainerClass}
+											params={{ laptop: model.id }}
+											to="/$laptop"
+										>
+											{preview}
+										</RouterLink>
+									) : (
+										<div className={previewContainerClass}>
+											{preview}
 											<div className="absolute top-3 right-3">
 												<Chip size="sm">Coming soon</Chip>
 											</div>
-										)}
-									</div>
+										</div>
+									)}
 
 									<Card.Header className="gap-1.5 pt-5">
 										<Card.Title className="text-lg">{model.name}</Card.Title>
