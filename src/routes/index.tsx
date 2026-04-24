@@ -1,4 +1,10 @@
-import { ArrowRight, Cpu, Palette, Wrench } from "@gravity-ui/icons";
+import {
+	ArrowRight,
+	Cpu,
+	LogoGithub,
+	Palette,
+	Wrench,
+} from "@gravity-ui/icons";
 import { Button, Card, Chip, Link } from "@heroui/react";
 import {
 	createFileRoute,
@@ -208,15 +214,28 @@ function Home() {
 			</section>
 
 			<footer className="border-t border-foreground/10">
-				<div className="mx-auto flex max-w-6xl items-center justify-center px-6 py-8 text-sm text-muted">
-					Created by{" "}
+				<div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-4 gap-y-2 px-6 py-8 text-sm text-muted">
+					<span>
+						Created by{" "}
+						<Link
+							className="ml-1"
+							href="https://x.com/daveycodez"
+							rel="noopener noreferrer"
+							target="_blank"
+						>
+							@daveycodez
+						</Link>
+					</span>
+					<span aria-hidden className="text-foreground/20">
+						·
+					</span>
 					<Link
-						className="ml-1"
-						href="https://x.com/daveycodez"
+						href="https://github.com/daveycodez/designframe.work"
 						rel="noopener noreferrer"
 						target="_blank"
 					>
-						@daveycodez
+						<LogoGithub />
+						GitHub
 					</Link>
 				</div>
 			</footer>
