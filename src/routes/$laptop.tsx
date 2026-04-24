@@ -1,6 +1,6 @@
 import { Button } from "@heroui/react";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useRef, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useRef } from "react";
 
 import { ConfigurationPanel } from "#/components/framework/configuration-panel";
 import { ProductViewer } from "#/components/framework/product-viewer";
@@ -8,8 +8,38 @@ import type { ExpansionCardId } from "#/data/expansion-cards";
 import { getLaptopById, type Laptop } from "#/data/laptops";
 import { copySvgAsPng, downloadSvgAsPng } from "#/lib/export-png";
 
+/**
+ * Shape of the `/$laptop` search params. All are optional so a bare URL
+ * like `/laptop-12` still renders a sensible default configuration.
+ *
+ * - `back` — selected back-finish id (e.g. `"sage"`).
+ * - `cards` — "apply to all" expansion-card id; acts as a fallback for any
+ *   slot without its own override.
+ * - `slots` — comma-separated per-slot overrides, positionally indexed by
+ *   the laptop's `expansionCardSlots` order. Empty entries fall through to
+ *   `cards` and then to the back's default card. Trailing empty entries
+ *   are elided to keep URLs tidy.
+ */
+type LaptopSearch = {
+	back?: string;
+	cards?: string;
+	slots?: string;
+};
+
 export const Route = createFileRoute("/$laptop")({
 	component: LaptopPage,
+	validateSearch: (search: Record<string, unknown>): LaptopSearch => {
+		const pickString = (key: string) =>
+			typeof search[key] === "string" && search[key] ? search[key] : undefined;
+		const out: LaptopSearch = {};
+		const back = pickString("back");
+		const cards = pickString("cards");
+		const slots = pickString("slots");
+		if (back) out.back = back;
+		if (cards) out.cards = cards;
+		if (slots) out.slots = slots;
+		return out;
+	},
 });
 
 function LaptopPage() {
@@ -21,19 +51,41 @@ function LaptopPage() {
 	return <LaptopConfigurator laptop={laptop} />;
 }
 
+function decodeSlotOverrides(
+	slotsParam: string | undefined,
+	laptop: Laptop,
+): Record<number, ExpansionCardId> {
+	if (!slotsParam) return {};
+	const parts = slotsParam.split(",");
+	const result: Record<number, ExpansionCardId> = {};
+	laptop.expansionCardSlots.forEach(({ slot }, idx) => {
+		const value = parts[idx];
+		if (value) result[slot] = value;
+	});
+	return result;
+}
+
+function encodeSlotOverrides(
+	overrides: Record<number, ExpansionCardId>,
+	laptop: Laptop,
+): string | undefined {
+	const parts = laptop.expansionCardSlots.map(
+		({ slot }) => overrides[slot] ?? "",
+	);
+	while (parts.length > 0 && parts[parts.length - 1] === "") parts.pop();
+	const joined = parts.join(",");
+	return joined || undefined;
+}
+
 function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
-	const [userBackId, setUserBackId] = useState<string>("");
-	// A bulk selection applies to every slot (including slots on laptops the
-	// user hasn't visited yet) and is superseded per-slot by `slotOverrides`.
-	// Tracking these separately keeps a bulk pick sticky when navigating
-	// between laptops with different slot counts.
-	const [bulkCardId, setBulkCardId] = useState<ExpansionCardId | "">("");
-	const [slotOverrides, setSlotOverrides] = useState<
-		Record<number, ExpansionCardId>
-	>({});
+	const search = Route.useSearch();
+	const navigate = useNavigate({ from: Route.fullPath });
 	const svgRef = useRef<SVGSVGElement>(null);
 
-	const back = laptop.backs.find((b) => b.id === userBackId) ?? laptop.backs[0];
+	const back =
+		laptop.backs.find((b) => b.id === search.back) ?? laptop.backs[0];
+	const bulkCardId = (search.cards ?? "") as ExpansionCardId | "";
+	const slotOverrides = decodeSlotOverrides(search.slots, laptop);
 
 	const effectiveExpansionCards = Object.fromEntries(
 		laptop.expansionCardSlots.map(({ slot }) => [
@@ -55,6 +107,11 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 		await copySvgAsPng(svg);
 	};
 
+	const handleCopyUrl = async () => {
+		if (typeof window === "undefined") return;
+		await navigator.clipboard.writeText(window.location.href);
+	};
+
 	return (
 		<div className="grid h-full grid-cols-1 lg:grid-cols-2">
 			<ProductViewer
@@ -66,19 +123,42 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 			<ConfigurationPanel
 				laptop={laptop}
 				onCopy={handleCopy}
+				onCopyUrl={handleCopyUrl}
 				onDownload={handleDownload}
 				onReset={() => {
-					setUserBackId("");
-					setBulkCardId("");
-					setSlotOverrides({});
+					navigate({ search: {}, replace: true, resetScroll: false });
 				}}
 				onSelectAllExpansionCards={(id) => {
-					setBulkCardId(id);
-					setSlotOverrides({});
+					navigate({
+						search: (prev) => {
+							const next: LaptopSearch = { cards: id };
+							if (prev.back) next.back = prev.back;
+							return next;
+						},
+						replace: true,
+						resetScroll: false,
+					});
 				}}
-				onSelectBack={setUserBackId}
+				onSelectBack={(id) => {
+					navigate({
+						search: (prev) => ({ ...prev, back: id }),
+						replace: true,
+						resetScroll: false,
+					});
+				}}
 				onSelectExpansionCard={(slot, id) => {
-					setSlotOverrides((prev) => ({ ...prev, [slot]: id }));
+					navigate({
+						search: (prev) => {
+							const current = decodeSlotOverrides(prev.slots, laptop);
+							const nextOverrides = { ...current, [slot]: id };
+							return {
+								...prev,
+								slots: encodeSlotOverrides(nextOverrides, laptop),
+							};
+						},
+						replace: true,
+						resetScroll: false,
+					});
 				}}
 				selectedBackId={back.id}
 				selectedExpansionCards={effectiveExpansionCards}

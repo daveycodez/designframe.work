@@ -7,6 +7,7 @@ import {
 	Copy,
 	CopyCheck,
 	Dice3,
+	Link as LinkIcon,
 } from "@gravity-ui/icons";
 import {
 	Button,
@@ -42,6 +43,7 @@ type ConfigurationPanelProps = {
 	onReset?: () => void;
 	onDownload?: () => void | Promise<void>;
 	onCopy?: () => void | Promise<void>;
+	onCopyUrl?: () => void | Promise<void>;
 };
 
 export function ConfigurationPanel({
@@ -54,11 +56,13 @@ export function ConfigurationPanel({
 	onReset,
 	onDownload,
 	onCopy,
+	onCopyUrl,
 }: ConfigurationPanelProps) {
 	const [isExporting, setIsExporting] = useState(false);
 	const [didJustCopy, setDidJustCopy] = useState(false);
 	const canCopy = canCopyImageToClipboard();
-	const hasExport = Boolean(onDownload) || (Boolean(onCopy) && canCopy);
+	const hasExport =
+		Boolean(onDownload) || (Boolean(onCopy) && canCopy) || Boolean(onCopyUrl);
 	const scrollRef = useRef<HTMLElement>(null);
 	const selectedBack = laptop.backs.find((b) => b.id === selectedBackId);
 
@@ -126,16 +130,18 @@ export function ConfigurationPanel({
 									<Dropdown.Menu
 										onAction={async (key) => {
 											const run =
-												key === "copy"
-													? onCopy
-													: key === "download"
-														? onDownload
-														: undefined;
+												key === "copy-url"
+													? onCopyUrl
+													: key === "copy"
+														? onCopy
+														: key === "download"
+															? onDownload
+															: undefined;
 											if (!run) return;
 											setIsExporting(true);
 											try {
 												await run();
-												if (key === "copy") {
+												if (key === "copy" || key === "copy-url") {
 													setDidJustCopy(true);
 													window.setTimeout(() => setDidJustCopy(false), 1500);
 												}
@@ -146,6 +152,12 @@ export function ConfigurationPanel({
 											}
 										}}
 									>
+										{onCopyUrl ? (
+											<Dropdown.Item id="copy-url" textValue="Copy URL">
+												<LinkIcon className="size-4 shrink-0 text-muted" />
+												<Label>Copy URL</Label>
+											</Dropdown.Item>
+										) : null}
 										{onCopy && canCopy ? (
 											<Dropdown.Item id="copy" textValue="Copy to clipboard">
 												<Copy className="size-4 shrink-0 text-muted" />
