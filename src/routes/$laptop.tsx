@@ -1,11 +1,12 @@
 import { Button } from "@heroui/react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { ConfigurationPanel } from "#/components/framework/configuration-panel";
 import { ProductViewer } from "#/components/framework/product-viewer";
 import type { ExpansionCardId } from "#/data/expansion-cards";
 import { getLaptopById, type Laptop } from "#/data/laptops";
+import { exportSvgAsPng } from "#/lib/export-png";
 
 export const Route = createFileRoute("/$laptop")({
 	component: LaptopPage,
@@ -30,6 +31,7 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 	const [slotOverrides, setSlotOverrides] = useState<
 		Record<number, ExpansionCardId>
 	>({});
+	const svgRef = useRef<SVGSVGElement>(null);
 
 	const back = laptop.backs.find((b) => b.id === userBackId) ?? laptop.backs[0];
 
@@ -40,15 +42,24 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 		]),
 	) as Record<number, ExpansionCardId>;
 
+	const handleExport = async () => {
+		const svg = svgRef.current;
+		if (!svg) return;
+		const slug = laptop.name.toLowerCase().replace(/\s+/g, "-");
+		await exportSvgAsPng(svg, `${slug}-${back.id}.png`);
+	};
+
 	return (
 		<div className="grid h-full grid-cols-1 lg:grid-cols-2">
 			<ProductViewer
 				back={back}
 				expansionCards={effectiveExpansionCards}
 				laptop={laptop}
+				svgRef={svgRef}
 			/>
 			<ConfigurationPanel
 				laptop={laptop}
+				onExport={handleExport}
 				onReset={() => {
 					setUserBackId("");
 					setBulkCardId("");

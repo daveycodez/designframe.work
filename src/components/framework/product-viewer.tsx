@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { type Ref, useEffect, useState } from "react";
 import {
 	type ExpansionCard,
 	type ExpansionCardId,
@@ -14,12 +14,14 @@ type ProductViewerProps = {
 	laptop: Laptop;
 	back: LaptopBack;
 	expansionCards: Record<number, ExpansionCardId>;
+	svgRef?: Ref<SVGSVGElement>;
 };
 
 export function ProductViewer({
 	laptop,
 	back,
 	expansionCards,
+	svgRef,
 }: ProductViewerProps) {
 	const [imageFailed, setImageFailed] = useState(false);
 
@@ -45,6 +47,7 @@ export function ProductViewer({
 				<svg
 					className="h-full max-h-full w-full max-w-full"
 					preserveAspectRatio="xMidYMid meet"
+					ref={svgRef}
 					viewBox={`${view.x} ${view.y} ${view.width} ${view.height}`}
 					xmlns="http://www.w3.org/2000/svg"
 				>

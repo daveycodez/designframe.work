@@ -1,5 +1,6 @@
-import { ArrowRotateLeft, Dice3 } from "@gravity-ui/icons";
+import { ArrowDownToLine, ArrowRotateLeft, Dice3 } from "@gravity-ui/icons";
 import { Button, ToggleButtonGroup } from "@heroui/react";
+import { useState } from "react";
 import { OptionCard, OptionSwatch } from "#/components/framework/option-card";
 import { ConfigurationSection } from "#/components/framework/section-header";
 import { EXPANSION_CARDS, type ExpansionCardId } from "#/data/expansion-cards";
@@ -22,6 +23,7 @@ type ConfigurationPanelProps = {
 	onSelectExpansionCard: (slot: number, id: ExpansionCardId) => void;
 	onSelectAllExpansionCards: (id: ExpansionCardId) => void;
 	onReset?: () => void;
+	onExport?: () => void | Promise<void>;
 };
 
 export function ConfigurationPanel({
@@ -32,7 +34,9 @@ export function ConfigurationPanel({
 	onSelectExpansionCard,
 	onSelectAllExpansionCards,
 	onReset,
+	onExport,
 }: ConfigurationPanelProps) {
+	const [isExporting, setIsExporting] = useState(false);
 	const selectedBack = laptop.backs.find((b) => b.id === selectedBackId);
 
 	const firstSlotCardId =
@@ -51,7 +55,7 @@ export function ConfigurationPanel({
 		<aside className="flex h-full w-full flex-col overflow-y-auto bg-background">
 			<div className="px-6 pt-6 pb-2 sm:px-8">
 				<div className="flex items-center justify-between gap-4">
-					<h2 className="text-2xl font-semibold tracking-tight text-foreground">
+					<h2 className="sr-only text-2xl font-semibold tracking-tight text-foreground sm:not-sr-only">
 						Preview
 					</h2>
 					<div className="flex items-center gap-2">
@@ -80,6 +84,24 @@ export function ConfigurationPanel({
 							<ArrowRotateLeft />
 							Start Over
 						</Button>
+						{onExport ? (
+							<Button
+								isDisabled={isExporting}
+								onPress={async () => {
+									setIsExporting(true);
+									try {
+										await onExport();
+									} finally {
+										setIsExporting(false);
+									}
+								}}
+								size="sm"
+								variant="ghost"
+							>
+								<ArrowDownToLine />
+								{isExporting ? "Exporting…" : "Export"}
+							</Button>
+						) : null}
 					</div>
 				</div>
 			</div>
