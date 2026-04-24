@@ -260,7 +260,7 @@
 		"color": "#000000",
 		"outline": "#000000",
 		"image": {
-			"src": "/images/expansion-cards/graphite.png",
+			"src": "/images/expansion-cards/graphite.png?v=2",
 			"width": 2112,
 			"height": 2580
 		},
