@@ -4,6 +4,8 @@ export type LaptopModel = {
 	tagline: string;
 	description: string;
 	image?: string;
+	/** Back finish id to feature in the home-page preview; defaults to the first back. */
+	previewBackId?: string;
 	status: "live" | "coming-soon";
 };
 
@@ -15,6 +17,7 @@ export const LAPTOP_MODELS: ReadonlyArray<LaptopModel> = [
 		description:
 			"A 12.2-inch 2-in-1 with a convertible 360° hinge. Five distinctive finishes designed to be swapped and repaired.",
 		image: "/images/laptop-12/backs/sage.png",
+		previewBackId: "sage",
 		status: "live",
 	},
 	{

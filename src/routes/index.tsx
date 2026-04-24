@@ -122,7 +122,10 @@ function Home() {
 						{LAPTOP_MODELS.map((model) => {
 							const isLive = model.status === "live";
 							const laptop = getLaptopById(model.id);
-							const back = laptop?.backs[0];
+							const back =
+								(model.previewBackId
+									? laptop?.backs.find((b) => b.id === model.previewBackId)
+									: undefined) ?? laptop?.backs[0];
 							const shortName = model.name.replace(/^Framework\s+/, "");
 							const finishes = laptop?.backs ?? [];
 
