@@ -40,10 +40,10 @@ function Home() {
 					<div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
 						<div>
 							<h1 className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-								Design your Framework.
+								Design your Framework Laptop.
 							</h1>
 							<p className="mt-3 max-w-xl text-balance text-muted sm:text-lg">
-								Preview every finish, expansion bay, and back panel.
+								Preview every color, expansion card, and back panel.
 							</p>
 						</div>
 						<Link
