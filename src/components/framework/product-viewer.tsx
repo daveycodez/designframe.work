@@ -38,7 +38,7 @@ export function ProductViewer({
 	return (
 		<div
 			aria-label={title}
-			className="relative flex aspect-4/3 w-full items-center justify-center lg:aspect-auto lg:h-full"
+			className="relative flex aspect-4/3 w-full items-center justify-center border-b border-foreground/5 bg-background max-lg:sticky max-lg:top-0 max-lg:z-10 max-lg:max-h-[30svh] lg:aspect-auto lg:h-full lg:max-h-none lg:border-b-0"
 			role="img"
 		>
 			{imageFailed ? (

@@ -53,7 +53,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<head>
 				<HeadContent />
 			</head>
-			<body className="flex min-h-screen flex-col bg-background text-foreground lg:h-dvh lg:min-h-0">
+			<body className="flex min-h-svh flex-col bg-background text-foreground lg:h-dvh lg:min-h-0">
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"
@@ -67,17 +67,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 						<main className="flex-1 lg:min-h-0">{children}</main>
 					</RouterProvider>
 				</ThemeProvider>
-				<TanStackDevtools
-					config={{
-						position: "bottom-right",
-					}}
-					plugins={[
-						{
-							name: "Tanstack Router",
-							render: <TanStackRouterDevtoolsPanel />,
-						},
-					]}
-				/>
+
 				<Scripts />
 			</body>
 		</html>

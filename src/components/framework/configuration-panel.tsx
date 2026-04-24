@@ -15,8 +15,9 @@ import {
 	Spinner,
 	ToggleButtonGroup,
 } from "@heroui/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { OptionCard, OptionSwatch } from "#/components/framework/option-card";
+import { ScrollToTop } from "#/components/framework/scroll-to-top";
 import { ConfigurationSection } from "#/components/framework/section-header";
 import { EXPANSION_CARDS, type ExpansionCardId } from "#/data/expansion-cards";
 import type { Laptop } from "#/data/laptops";
@@ -58,6 +59,7 @@ export function ConfigurationPanel({
 	const [didJustCopy, setDidJustCopy] = useState(false);
 	const canCopy = canCopyImageToClipboard();
 	const hasExport = Boolean(onDownload) || (Boolean(onCopy) && canCopy);
+	const scrollRef = useRef<HTMLElement>(null);
 	const selectedBack = laptop.backs.find((b) => b.id === selectedBackId);
 
 	const firstSlotCardId =
@@ -73,7 +75,10 @@ export function ConfigurationPanel({
 		: undefined;
 
 	return (
-		<aside className="flex h-full w-full flex-col overflow-y-auto bg-background">
+		<aside
+			className="flex h-full w-full flex-col overflow-y-auto bg-background"
+			ref={scrollRef}
+		>
 			<div className="px-6 pt-6 pb-2 sm:px-8">
 				<div className="flex items-center justify-between gap-4">
 					<h2 className="sr-only text-2xl font-semibold tracking-tight text-foreground sm:not-sr-only">
@@ -274,6 +279,7 @@ export function ConfigurationPanel({
 			</div>
 
 			<div className="h-8" />
+			<ScrollToTop containerRef={scrollRef} />
 		</aside>
 	);
 }
