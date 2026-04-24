@@ -60,9 +60,9 @@ export function AppHeader() {
 
 	return (
 		<header className="border-b border-foreground/10">
-			<div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
+			<div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
 				<Link
-					className="flex items-center gap-1.5 text-lg font-semibold tracking-tight text-foreground"
+					className="flex items-center gap-1.5 text-base md:text-lg font-semibold tracking-tight text-foreground"
 					to="/"
 				>
 					<Gear className="size-5" />

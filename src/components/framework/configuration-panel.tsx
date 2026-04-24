@@ -175,7 +175,7 @@ export function ConfigurationPanel({
 				>
 					<ToggleButtonGroup
 						aria-label="Back panel finish"
-						className="grid auto-rows-fr grid-cols-[repeat(3,96px)] gap-2 sm:grid-cols-[repeat(5,96px)] lg:grid-cols-[repeat(4,96px)] xl:grid-cols-[repeat(5,96px)]"
+						className="grid auto-rows-fr grid-cols-[repeat(4,minmax(0,96px))] gap-2 sm:grid-cols-[repeat(5,96px)] lg:grid-cols-[repeat(4,96px)] xl:grid-cols-[repeat(5,96px)]"
 						disallowEmptySelection
 						isDetached
 						selectedKeys={new Set([selectedBackId])}
@@ -211,7 +211,7 @@ export function ConfigurationPanel({
 				>
 					<ToggleButtonGroup
 						aria-label="All expansion cards finish"
-						className="grid auto-rows-fr grid-cols-[repeat(3,96px)] gap-2 sm:grid-cols-[repeat(5,96px)] lg:grid-cols-[repeat(4,96px)] xl:grid-cols-[repeat(5,96px)]"
+						className="grid auto-rows-fr grid-cols-[repeat(4,minmax(0,96px))] gap-2 sm:grid-cols-[repeat(5,96px)] lg:grid-cols-[repeat(4,96px)] xl:grid-cols-[repeat(5,96px)]"
 						isDetached
 						selectedKeys={
 							allSlotsMatch && firstSlotCardId
@@ -251,7 +251,7 @@ export function ConfigurationPanel({
 						>
 							<ToggleButtonGroup
 								aria-label={`Expansion card ${slot} finish`}
-								className="grid auto-rows-fr grid-cols-[repeat(3,96px)] gap-2 sm:grid-cols-[repeat(5,96px)] lg:grid-cols-[repeat(4,96px)] xl:grid-cols-[repeat(5,96px)]"
+								className="grid auto-rows-fr grid-cols-[repeat(4,minmax(0,96px))] gap-2 sm:grid-cols-[repeat(5,96px)] lg:grid-cols-[repeat(4,96px)] xl:grid-cols-[repeat(5,96px)]"
 								disallowEmptySelection
 								isDetached
 								selectedKeys={selectedId ? new Set([selectedId]) : new Set()}
