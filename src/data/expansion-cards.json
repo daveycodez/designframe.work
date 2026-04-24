@@ -1,6 +1,6 @@
 [
 	{
-		"id": "aluminum-silver",
+		"id": "silver",
 		"label": "Silver",
 		"color": "#c8c9cc",
 		"outline": "#c8c9cc",
@@ -17,7 +17,7 @@
 		}
 	},
 	{
-		"id": "plastic-black",
+		"id": "black",
 		"label": "Black",
 		"color": "#1a1a1a",
 		"outline": "#1a1a1a",
@@ -34,7 +34,7 @@
 		}
 	},
 	{
-		"id": "plastic-lavender",
+		"id": "lavender",
 		"label": "Lavender",
 		"color": "#c8bad9",
 		"outline": "#c8bad9",
@@ -51,7 +51,7 @@
 		}
 	},
 	{
-		"id": "plastic-sage",
+		"id": "sage",
 		"label": "Sage",
 		"color": "#8ea684",
 		"outline": "#8ea684",
@@ -68,7 +68,7 @@
 		}
 	},
 	{
-		"id": "plastic-bubblegum",
+		"id": "bubblegum",
 		"label": "Bubblegum",
 		"color": "#f2b5c2",
 		"outline": "#f2b5c2",
@@ -85,7 +85,7 @@
 		}
 	},
 	{
-		"id": "plastic-gray",
+		"id": "gray",
 		"label": "Gray",
 		"color": "#e8e8e6",
 		"outline": "#e8e8e6",
@@ -102,7 +102,7 @@
 		}
 	},
 	{
-		"id": "plastic-orange",
+		"id": "orange",
 		"label": "Orange",
 		"color": "#f07b3a",
 		"outline": "#f07b3a",
@@ -119,7 +119,7 @@
 		}
 	},
 	{
-		"id": "plastic-green",
+		"id": "green",
 		"label": "Green",
 		"color": "#2d7a3e",
 		"outline": "#2d7a3e",
@@ -136,7 +136,7 @@
 		}
 	},
 	{
-		"id": "plastic-red",
+		"id": "red",
 		"label": "Red",
 		"color": "#b02a2a",
 		"outline": "#b02a2a",
@@ -153,7 +153,7 @@
 		}
 	},
 	{
-		"id": "plastic-translucent",
+		"id": "translucent",
 		"label": "Translucent",
 		"color": "#eeefee",
 		"outline": "#eeefee",
@@ -170,7 +170,7 @@
 		}
 	},
 	{
-		"id": "plastic-translucent-black",
+		"id": "translucent-black",
 		"label": "Translucent Black",
 		"color": "#2a2a2a",
 		"outline": "#2a2a2a",
@@ -187,7 +187,7 @@
 		}
 	},
 	{
-		"id": "plastic-translucent-orange",
+		"id": "translucent-orange",
 		"label": "Translucent Orange",
 		"color": "#f5a878",
 		"outline": "#f5a878",
@@ -204,7 +204,7 @@
 		}
 	},
 	{
-		"id": "plastic-translucent-purple",
+		"id": "translucent-purple",
 		"label": "Translucent Purple",
 		"color": "#7048c2",
 		"outline": "#7048c2",
@@ -221,7 +221,7 @@
 		}
 	},
 	{
-		"id": "plastic-translucent-green",
+		"id": "translucent-green",
 		"label": "Translucent Green",
 		"color": "#9ac98a",
 		"outline": "#9ac98a",
@@ -238,7 +238,7 @@
 		}
 	},
 	{
-		"id": "plastic-translucent-pink",
+		"id": "translucent-pink",
 		"label": "Translucent Pink",
 		"color": "#f5c8e0",
 		"outline": "#f5c8e0",
@@ -255,7 +255,7 @@
 		}
 	},
 	{
-		"id": "plastic-graphite",
+		"id": "graphite",
 		"label": "Graphite",
 		"color": "#000000",
 		"outline": "#000000",

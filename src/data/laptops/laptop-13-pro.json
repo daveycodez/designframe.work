@@ -30,7 +30,7 @@
 			"label": "Graphite",
 			"shell": "#0a0a0a",
 			"accent": "#000000",
-			"defaultExpansionCardId": "plastic-graphite",
+			"defaultExpansionCardId": "graphite",
 			"image": {
 				"src": "/images/laptop-13-pro/graphite.png",
 				"width": 1398,

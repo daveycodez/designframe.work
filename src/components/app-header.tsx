@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { ThemeToggle } from "#/components/theme-toggle";
 import { LAPTOP_MODELS } from "#/data/laptop-models";
+import { getLaptopById } from "#/data/laptops";
 
 const navPill = "rounded-md px-3 py-1.5 text-sm transition-colors";
 const activeClass =
@@ -12,8 +13,52 @@ const activeClass =
 const idleClass = "text-foreground/80 hover:bg-foreground/5";
 const disabledClass = "cursor-not-allowed text-foreground/40 select-none";
 
+/**
+ * Reshape the current `?expansion-cards=` string so it lands naturally on a
+ * target laptop with a different slot count.
+ *
+ * - Target has fewer slots → trim to the first N entries (and strip
+ *   trailing empties). This is the laptop-16 → laptop-12/13/13-pro case
+ *   where we only carry the first 4 cards.
+ * - Target has more slots → if every supplied entry is the same non-empty
+ *   card id, broadcast it across every target slot so a "bulk" selection
+ *   stays bulk (e.g. 4 reds → 6 reds when navigating to laptop-16).
+ *   Otherwise pass the existing entries through and let the extra slots
+ *   fall back to the back's default.
+ * - Target has the same slot count → pass through unchanged.
+ */
+function projectExpansionCardsForTarget(
+	current: string | undefined,
+	targetSlotCount: number,
+): string | undefined {
+	if (!current || targetSlotCount === 0) return undefined;
+	const parts = current.split(",");
+	if (targetSlotCount < parts.length) {
+		const trimmed = parts.slice(0, targetSlotCount);
+		while (trimmed.length > 0 && trimmed[trimmed.length - 1] === "")
+			trimmed.pop();
+		return trimmed.length > 0 ? trimmed.join(",") : undefined;
+	}
+	if (targetSlotCount > parts.length) {
+		const first = parts[0];
+		const allMatch = Boolean(first) && parts.every((p) => p === first);
+		if (allMatch) {
+			return new Array<string>(targetSlotCount).fill(first as string).join(",");
+		}
+	}
+	return current;
+}
+
 export function AppHeader() {
 	const pathname = useRouterState({ select: (s) => s.location.pathname });
+	const currentExpansionCards = useRouterState({
+		select: (s) => {
+			const value = (s.location.search as Record<string, unknown>)[
+				"expansion-cards"
+			];
+			return typeof value === "string" ? value : undefined;
+		},
+	});
 	const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 	const renderNavItems = (onNavigate?: () => void) =>
@@ -44,6 +89,12 @@ export function AppHeader() {
 					</span>
 				);
 			}
+			const targetSlotCount =
+				getLaptopById(model.id)?.expansionCardSlots.length ?? 0;
+			const projectedCards = projectExpansionCardsForTarget(
+				currentExpansionCards,
+				targetSlotCount,
+			);
 			return (
 				<Link
 					activeOptions={{ exact: true }}
@@ -51,6 +102,7 @@ export function AppHeader() {
 					key={model.id}
 					onClick={onNavigate}
 					params={{ laptop: model.id }}
+					search={projectedCards ? { "expansion-cards": projectedCards } : {}}
 					to="/$laptop"
 				>
 					{shortName}

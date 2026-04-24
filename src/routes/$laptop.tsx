@@ -12,32 +12,26 @@ import { copySvgAsPng, downloadSvgAsPng } from "#/lib/export-png";
  * Shape of the `/$laptop` search params. All are optional so a bare URL
  * like `/laptop-12` still renders a sensible default configuration.
  *
- * - `back` — selected back-finish id (e.g. `"sage"`).
- * - `cards` — "apply to all" expansion-card id; acts as a fallback for any
- *   slot without its own override.
- * - `slots` — comma-separated per-slot overrides, positionally indexed by
- *   the laptop's `expansionCardSlots` order. Empty entries fall through to
- *   `cards` and then to the back's default card. Trailing empty entries
- *   are elided to keep URLs tidy.
+ * - `color` — selected back-finish id (e.g. `"sage"`).
+ * - `expansion-cards` — comma-separated per-slot card ids, positionally
+ *   indexed by the laptop's `expansionCardSlots` order. Empty entries fall
+ *   back to the back's default card; trailing empties are elided to keep
+ *   URLs tidy. A "bulk" selection is just every slot carrying the same
+ *   value — we don't store the bulk choice separately.
  */
 type LaptopSearch = {
-	back?: string;
-	cards?: string;
-	slots?: string;
+	color?: string;
+	"expansion-cards"?: string;
 };
 
 export const Route = createFileRoute("/$laptop")({
 	component: LaptopPage,
 	validateSearch: (search: Record<string, unknown>): LaptopSearch => {
-		const pickString = (key: string) =>
-			typeof search[key] === "string" && search[key] ? search[key] : undefined;
 		const out: LaptopSearch = {};
-		const back = pickString("back");
-		const cards = pickString("cards");
-		const slots = pickString("slots");
-		if (back) out.back = back;
-		if (cards) out.cards = cards;
-		if (slots) out.slots = slots;
+		const color = search.color;
+		if (typeof color === "string" && color) out.color = color;
+		const cards = search["expansion-cards"];
+		if (typeof cards === "string" && cards) out["expansion-cards"] = cards;
 		return out;
 	},
 });
@@ -51,12 +45,12 @@ function LaptopPage() {
 	return <LaptopConfigurator laptop={laptop} />;
 }
 
-function decodeSlotOverrides(
-	slotsParam: string | undefined,
+function decodeExpansionCards(
+	param: string | undefined,
 	laptop: Laptop,
 ): Record<number, ExpansionCardId> {
-	if (!slotsParam) return {};
-	const parts = slotsParam.split(",");
+	if (!param) return {};
+	const parts = param.split(",");
 	const result: Record<number, ExpansionCardId> = {};
 	laptop.expansionCardSlots.forEach(({ slot }, idx) => {
 		const value = parts[idx];
@@ -65,7 +59,7 @@ function decodeSlotOverrides(
 	return result;
 }
 
-function encodeSlotOverrides(
+function encodeExpansionCards(
 	overrides: Record<number, ExpansionCardId>,
 	laptop: Laptop,
 ): string | undefined {
@@ -83,14 +77,13 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 	const svgRef = useRef<SVGSVGElement>(null);
 
 	const back =
-		laptop.backs.find((b) => b.id === search.back) ?? laptop.backs[0];
-	const bulkCardId = (search.cards ?? "") as ExpansionCardId | "";
-	const slotOverrides = decodeSlotOverrides(search.slots, laptop);
+		laptop.backs.find((b) => b.id === search.color) ?? laptop.backs[0];
+	const slotOverrides = decodeExpansionCards(search["expansion-cards"], laptop);
 
 	const effectiveExpansionCards = Object.fromEntries(
 		laptop.expansionCardSlots.map(({ slot }) => [
 			slot,
-			slotOverrides[slot] || bulkCardId || back.defaultExpansionCardId,
+			slotOverrides[slot] || back.defaultExpansionCardId,
 		]),
 	) as Record<number, ExpansionCardId>;
 
@@ -129,10 +122,16 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 					navigate({ search: {}, replace: true, resetScroll: false });
 				}}
 				onSelectAllExpansionCards={(id) => {
+					const filled: Record<number, ExpansionCardId> = {};
+					laptop.expansionCardSlots.forEach(({ slot }) => {
+						filled[slot] = id;
+					});
+					const encoded = encodeExpansionCards(filled, laptop);
 					navigate({
 						search: (prev) => {
-							const next: LaptopSearch = { cards: id };
-							if (prev.back) next.back = prev.back;
+							const next: LaptopSearch = {};
+							if (prev.color) next.color = prev.color;
+							if (encoded) next["expansion-cards"] = encoded;
 							return next;
 						},
 						replace: true,
@@ -141,7 +140,7 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 				}}
 				onSelectBack={(id) => {
 					navigate({
-						search: (prev) => ({ ...prev, back: id }),
+						search: (prev) => ({ ...prev, color: id }),
 						replace: true,
 						resetScroll: false,
 					});
@@ -149,12 +148,16 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 				onSelectExpansionCard={(slot, id) => {
 					navigate({
 						search: (prev) => {
-							const current = decodeSlotOverrides(prev.slots, laptop);
+							const current = decodeExpansionCards(
+								prev["expansion-cards"],
+								laptop,
+							);
 							const nextOverrides = { ...current, [slot]: id };
-							return {
-								...prev,
-								slots: encodeSlotOverrides(nextOverrides, laptop),
-							};
+							const encoded = encodeExpansionCards(nextOverrides, laptop);
+							const next: LaptopSearch = {};
+							if (prev.color) next.color = prev.color;
+							if (encoded) next["expansion-cards"] = encoded;
+							return next;
 						},
 						replace: true,
 						resetScroll: false,

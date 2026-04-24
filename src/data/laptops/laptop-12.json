@@ -30,7 +30,7 @@
 			"label": "Black",
 			"shell": "#4a4a4a",
 			"accent": "#1a1a1a",
-			"defaultExpansionCardId": "plastic-black",
+			"defaultExpansionCardId": "black",
 			"image": {
 				"src": "/images/laptop-12/backs/black.png",
 				"width": 1056,
@@ -43,7 +43,7 @@
 			"label": "Gray",
 			"shell": "#e8e8e6",
 			"accent": "#a8a8a6",
-			"defaultExpansionCardId": "plastic-gray",
+			"defaultExpansionCardId": "gray",
 			"image": {
 				"src": "/images/laptop-12/backs/gray.png",
 				"width": 1056,
@@ -56,7 +56,7 @@
 			"label": "Lavender",
 			"shell": "#c8bad9",
 			"accent": "#8b7aa3",
-			"defaultExpansionCardId": "plastic-lavender",
+			"defaultExpansionCardId": "lavender",
 			"image": {
 				"src": "/images/laptop-12/backs/lavender.png",
 				"width": 1056,
@@ -69,7 +69,7 @@
 			"label": "Bubblegum",
 			"shell": "#f2b5c2",
 			"accent": "#a8dde0",
-			"defaultExpansionCardId": "plastic-bubblegum",
+			"defaultExpansionCardId": "bubblegum",
 			"image": {
 				"src": "/images/laptop-12/backs/bubblegum.png",
 				"width": 1056,
@@ -82,7 +82,7 @@
 			"label": "Sage",
 			"shell": "#8ea684",
 			"accent": "#6e8b69",
-			"defaultExpansionCardId": "plastic-sage",
+			"defaultExpansionCardId": "sage",
 			"image": {
 				"src": "/images/laptop-12/backs/sage.png",
 				"width": 1056,

@@ -96,7 +96,7 @@ Everything is data-driven. No component changes needed for normal content update
 2. Append an entry to `src/data/expansion-cards.json`:
    ```jsonc
    {
-     "id": "plastic-newcolor",
+     "id": "newcolor",
      "label": "New Color",
      "color": "#hexswatch",
      "outline": "#hexswatch",
@@ -120,7 +120,7 @@ Edit that laptop's JSON (`src/data/laptops/laptop-13.json`, etc.) and append to 
   "label": "Graphite",
   "shell": "#2a2a2c",          // fallback swatch if photo fails to load
   "accent": "#1a1a1c",
-  "defaultExpansionCardId": "plastic-graphite",
+  "defaultExpansionCardId": "graphite",
   "image": {
     "src": "/images/laptop-13/backs/graphite.png",
     "width": 1290,

@@ -30,7 +30,7 @@
 			"label": "Silver",
 			"shell": "#d4d6d9",
 			"accent": "#a6a9ae",
-			"defaultExpansionCardId": "aluminum-silver",
+			"defaultExpansionCardId": "silver",
 			"image": {
 				"src": "/images/laptop-13/backs/silver.png",
 				"width": 1290,
