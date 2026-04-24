@@ -50,6 +50,7 @@ export function ProductViewer({
 				>
 					<title>{title}</title>
 					<image
+						className="drop-shadow-[0_24px_28px_rgba(0,0,0,0.35)]"
 						height={image.height}
 						href={image.src}
 						width={image.width}

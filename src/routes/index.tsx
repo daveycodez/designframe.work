@@ -143,6 +143,7 @@ function Home() {
 								>
 									<title>{model.name}</title>
 									<image
+										className="drop-shadow-[0_24px_28px_rgba(0,0,0,0.35)]"
 										height={back.image.height}
 										href={back.image.src}
 										width={back.image.width}
