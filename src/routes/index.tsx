@@ -1,9 +1,9 @@
-import { ArrowDown, Cpu, LogoGithub, Palette, Wrench } from "@gravity-ui/icons";
-import { Button, Card, Chip, Link } from "@heroui/react";
+import { Cpu, LogoGithub, Palette, Wrench } from "@gravity-ui/icons";
+import { Card, Chip, Link } from "@heroui/react";
 import { createFileRoute, Link as RouterLink } from "@tanstack/react-router";
 
 import { LAPTOP_MODELS } from "#/data/laptop-models";
-import { getLaptopById, LAPTOPS } from "#/data/laptops";
+import { getLaptopById } from "#/data/laptops";
 
 export const Route = createFileRoute("/")({ component: Home });
 
@@ -27,84 +27,23 @@ const features = [
 	},
 ];
 
-const heroSwatches = Array.from(
-	new Set(LAPTOPS.flatMap((l) => l.backs.map((b) => b.shell))),
-);
-const totalFinishes = LAPTOPS.reduce((n, l) => n + l.backs.length, 0);
-
 function Home() {
-	const scrollToLaptops = () => {
-		document
-			.getElementById("laptops")
-			?.scrollIntoView({ behavior: "smooth", block: "start" });
-	};
-
 	return (
 		<>
 			<section className="relative overflow-hidden border-b border-foreground/10">
 				<div
 					aria-hidden
-					className="pointer-events-none absolute top-0 left-1/2 z-0 h-[420px] w-[900px] max-w-[120%] -translate-x-1/2 rounded-full bg-accent-soft blur-3xl"
-				/>
-				<div
-					aria-hidden
-					className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-linear-to-r from-transparent via-foreground/10 to-transparent"
+					className="pointer-events-none absolute top-0 left-1/2 z-0 h-[360px] w-[900px] max-w-[120%] -translate-x-1/2 rounded-full bg-accent-soft blur-3xl"
 				/>
 
-				<div className="relative mx-auto max-w-6xl px-6 pt-24 pb-28 sm:pt-32 sm:pb-36">
-					<div className="mx-auto max-w-3xl text-center">
-						<div className="mb-6 inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-background/70 px-3 py-1 text-xs font-medium text-muted backdrop-blur">
-							<span className="h-1.5 w-1.5 rounded-full bg-accent" />
-							Preview a Framework laptop
-						</div>
-						<h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-7xl">
-							Design your Framework.
-						</h1>
-						<p className="mx-auto mt-5 max-w-2xl text-balance text-lg text-muted sm:text-xl">
-							Explore finishes, expansion bay colors, and back panels across the
-							Framework laptop line — designed to be yours, designed to last.
-						</p>
-						<div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-							<Button onPress={scrollToLaptops} size="lg">
-								Browse laptops
-								<ArrowDown />
-							</Button>
-						</div>
-
-						<div className="mt-14 flex flex-col items-center gap-3">
-							<div className="flex items-center -space-x-1.5">
-								{heroSwatches.map((shell) => (
-									<span
-										aria-hidden
-										className="h-7 w-7 rounded-full shadow-sm ring-2 ring-background"
-										key={shell}
-										style={{ backgroundColor: shell }}
-									/>
-								))}
-							</div>
-							<p className="text-xs tracking-wide text-muted">
-								{totalFinishes} finishes across {LAPTOPS.length} laptops
-							</p>
-						</div>
-					</div>
-				</div>
-			</section>
-
-			<section
-				className="scroll-mt-20 border-b border-foreground/10"
-				id="laptops"
-			>
-				<div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
-					<div className="mb-12 flex flex-col gap-3 sm:mb-16 sm:flex-row sm:items-end sm:justify-between">
+				<div className="relative mx-auto max-w-6xl px-6 pt-12 pb-16 sm:pt-16 sm:pb-20">
+					<div className="mb-10 flex flex-col gap-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
 						<div>
-							<p className="mb-3 text-xs font-medium tracking-[0.18em] text-muted uppercase">
-								Pick a laptop
-							</p>
-							<h2 className="text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
-								Four models. One philosophy.
-							</h2>
-							<p className="mt-2 max-w-xl text-muted">
-								The same repairable, upgradeable DNA at every size.
+							<h1 className="text-balance text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+								Design your Framework.
+							</h1>
+							<p className="mt-3 max-w-xl text-balance text-muted sm:text-lg">
+								Preview every finish, expansion bay, and back panel.
 							</p>
 						</div>
 						<Link
