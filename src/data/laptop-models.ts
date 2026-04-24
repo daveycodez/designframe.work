@@ -13,7 +13,7 @@ export const LAPTOP_MODELS: ReadonlyArray<LaptopModel> = [
 		name: "Framework Laptop 12",
 		tagline: "Compact, colorful, and made to last",
 		description:
-			"A 12.2-inch 2-in-1 with a convertible 360° hinge. Five playful finishes designed to be swapped and repaired.",
+			"A 12.2-inch 2-in-1 with a convertible 360° hinge. Five distinctive finishes designed to be swapped and repaired.",
 		image: "/images/laptop-12/backs/sage.png",
 		status: "live",
 	},

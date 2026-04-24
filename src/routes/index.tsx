@@ -1,26 +1,16 @@
-import {
-	ArrowRight,
-	Cpu,
-	LogoGithub,
-	Palette,
-	Wrench,
-} from "@gravity-ui/icons";
+import { ArrowDown, Cpu, LogoGithub, Palette, Wrench } from "@gravity-ui/icons";
 import { Button, Card, Chip, Link } from "@heroui/react";
-import {
-	createFileRoute,
-	Link as RouterLink,
-	useNavigate,
-} from "@tanstack/react-router";
+import { createFileRoute, Link as RouterLink } from "@tanstack/react-router";
 
 import { LAPTOP_MODELS } from "#/data/laptop-models";
-import { getLaptopById } from "#/data/laptops";
+import { getLaptopById, LAPTOPS } from "#/data/laptops";
 
 export const Route = createFileRoute("/")({ component: Home });
 
 const features = [
 	{
 		icon: Palette,
-		title: "Five playful finishes",
+		title: "Finishes with personality",
 		description: "Swap back panels anytime — from Sage to Bubblegum to Black.",
 	},
 	{
@@ -37,55 +27,92 @@ const features = [
 	},
 ];
 
+const heroSwatches = Array.from(
+	new Set(LAPTOPS.flatMap((l) => l.backs.map((b) => b.shell))),
+);
+const totalFinishes = LAPTOPS.reduce((n, l) => n + l.backs.length, 0);
+
 function Home() {
-	const navigate = useNavigate();
+	const scrollToLaptops = () => {
+		document
+			.getElementById("laptops")
+			?.scrollIntoView({ behavior: "smooth", block: "start" });
+	};
 
 	return (
 		<>
-			<section className="relative overflow-hidden border-b border-foreground/10 bg-gradient-to-b from-background via-background to-foreground/[0.03]">
-				<div className="mx-auto max-w-6xl px-6 pt-20 pb-24 sm:pt-28 sm:pb-32">
+			<section className="relative overflow-hidden border-b border-foreground/10">
+				<div
+					aria-hidden
+					className="pointer-events-none absolute top-0 left-1/2 z-0 h-[420px] w-[900px] max-w-[120%] -translate-x-1/2 rounded-full bg-accent-soft blur-3xl"
+				/>
+				<div
+					aria-hidden
+					className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-linear-to-r from-transparent via-foreground/10 to-transparent"
+				/>
+
+				<div className="relative mx-auto max-w-6xl px-6 pt-24 pb-28 sm:pt-32 sm:pb-36">
 					<div className="mx-auto max-w-3xl text-center">
-						<div className="mb-6 inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-background px-3 py-1 text-xs font-medium text-muted">
+						<div className="mb-6 inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-background/70 px-3 py-1 text-xs font-medium text-muted backdrop-blur">
 							<span className="h-1.5 w-1.5 rounded-full bg-accent" />
 							Configure a Framework laptop
 						</div>
-						<h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-6xl">
+						<h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-7xl">
 							Build your Framework.
 						</h1>
-						<p className="mt-5 text-balance text-lg text-muted sm:text-xl">
+						<p className="mx-auto mt-5 max-w-2xl text-balance text-lg text-muted sm:text-xl">
 							Explore finishes, expansion bay colors, and back panels across the
-							Framework laptop line. Designed to be yours, designed to last.
+							Framework laptop line — designed to be yours, designed to last.
 						</p>
 						<div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-							<Button
-								onPress={() => {
-									void navigate({
-										to: "/$laptop",
-										params: { laptop: "laptop-12" },
-									});
-								}}
-								size="lg"
-							>
-								Start with Laptop 12
-								<ArrowRight />
+							<Button onPress={scrollToLaptops} size="lg">
+								Browse laptops
+								<ArrowDown />
 							</Button>
+						</div>
+
+						<div className="mt-14 flex flex-col items-center gap-3">
+							<div className="flex items-center -space-x-1.5">
+								{heroSwatches.map((shell) => (
+									<span
+										aria-hidden
+										className="h-7 w-7 rounded-full shadow-sm ring-2 ring-background"
+										key={shell}
+										style={{ backgroundColor: shell }}
+									/>
+								))}
+							</div>
+							<p className="text-xs tracking-wide text-muted">
+								{totalFinishes} finishes across {LAPTOPS.length} laptops
+							</p>
 						</div>
 					</div>
 				</div>
 			</section>
 
-			<section className="border-b border-foreground/10">
-				<div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
-					<div className="mb-10 flex flex-col gap-3 sm:mb-12 sm:flex-row sm:items-end sm:justify-between">
+			<section
+				className="scroll-mt-20 border-b border-foreground/10"
+				id="laptops"
+			>
+				<div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+					<div className="mb-12 flex flex-col gap-3 sm:mb-16 sm:flex-row sm:items-end sm:justify-between">
 						<div>
-							<h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+							<p className="mb-3 text-xs font-medium tracking-[0.18em] text-muted uppercase">
 								Pick a laptop
+							</p>
+							<h2 className="text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
+								Four models. One philosophy.
 							</h2>
 							<p className="mt-2 max-w-xl text-muted">
-								Four models. Same repairable, upgradeable philosophy.
+								The same repairable, upgradeable DNA at every size.
 							</p>
 						</div>
-						<Link className="text-sm" href="https://frame.work" target="_blank">
+						<Link
+							className="text-sm"
+							href="https://frame.work"
+							rel="noopener noreferrer"
+							target="_blank"
+						>
 							Compare all models
 							<Link.Icon />
 						</Link>
@@ -96,10 +123,16 @@ function Home() {
 							const isLive = model.status === "live";
 							const laptop = getLaptopById(model.id);
 							const back = laptop?.backs[0];
-							const preview = back ? (
+							const shortName = model.name.replace(/^Framework\s+/, "");
+							const finishes = laptop?.backs ?? [];
+
+							const previewContainerClass =
+								"group/preview relative block aspect-4/3 overflow-hidden bg-surface-secondary rounded-2xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none";
+
+							const previewInner = back ? (
 								<svg
 									aria-label={model.name}
-									className="absolute inset-0 h-full w-full p-6 transition-transform duration-500 group-hover:scale-[1.03]"
+									className="absolute inset-0 h-full w-full p-5 transition-transform duration-500 ease-out group-hover/preview:scale-[1.04]"
 									preserveAspectRatio="xMidYMid meet"
 									role="img"
 									viewBox={`${back.view.x} ${back.view.y} ${back.view.width} ${back.view.height}`}
@@ -116,25 +149,12 @@ function Home() {
 								</svg>
 							) : (
 								<div className="absolute inset-0 flex items-center justify-center">
-									<div className="text-center">
-										<div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-foreground/5">
-											<Cpu className="size-7 text-muted" />
-										</div>
-										<p className="text-xs font-medium text-muted">
-											Preview coming soon
-										</p>
-									</div>
+									<Cpu className="size-8 text-muted" />
 								</div>
 							);
 
-							const previewContainerClass =
-								"group relative block aspect-4/3 overflow-hidden rounded-2xl bg-muted/20 focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none";
-
 							return (
-								<Card
-									className="flex flex-col overflow-hidden transition-all hover:shadow-lg"
-									key={model.id}
-								>
+								<Card className="flex flex-col overflow-hidden" key={model.id}>
 									{isLive ? (
 										<RouterLink
 											aria-label={`Design ${model.name}`}
@@ -142,49 +162,46 @@ function Home() {
 											params={{ laptop: model.id }}
 											to="/$laptop"
 										>
-											{preview}
+											{previewInner}
 										</RouterLink>
 									) : (
 										<div className={previewContainerClass}>
-											{preview}
+											{previewInner}
 											<div className="absolute top-3 right-3">
 												<Chip size="sm">Coming soon</Chip>
 											</div>
 										</div>
 									)}
 
-									<Card.Header className="gap-1.5 pt-5">
-										<Card.Title className="text-lg">{model.name}</Card.Title>
-										<Card.Description className="text-[13px]">
-											{model.tagline}
-										</Card.Description>
-									</Card.Header>
+									<div className="flex flex-1 flex-col gap-4 p-5">
+										<div className="flex flex-col gap-1">
+											<h3 className="text-lg font-semibold tracking-tight text-foreground">
+												{shortName}
+											</h3>
+											<p className="text-[13px] text-muted">{model.tagline}</p>
+										</div>
 
-									<Card.Content>
-										<p className="text-sm text-muted">{model.description}</p>
-									</Card.Content>
-
-									<Card.Footer className="mt-auto flex items-center justify-end pt-4">
-										{isLive ? (
-											<Button
-												onPress={() => {
-													void navigate({
-														to: "/$laptop",
-														params: { laptop: model.id },
-													});
-												}}
-												size="sm"
-												variant="secondary"
-											>
-												Design
-												<ArrowRight />
-											</Button>
-										) : (
-											<Button isDisabled size="sm" variant="outline">
-												Notify me
-											</Button>
+										{finishes.length > 0 && (
+											<div className="mt-auto flex items-center gap-2.5 pt-1">
+												<div className="flex -space-x-1.5">
+													{finishes.slice(0, 5).map((b) => (
+														<span
+															aria-hidden
+															className="h-4 w-4 rounded-full ring-2 ring-surface"
+															key={b.id}
+															style={{ backgroundColor: b.shell }}
+															title={b.label}
+														/>
+													))}
+												</div>
+												<span className="text-xs text-muted">
+													{finishes.length === 1
+														? "1 finish"
+														: `${finishes.length} finishes`}
+												</span>
+											</div>
 										)}
-									</Card.Footer>
+									</div>
 								</Card>
 							);
 						})}
@@ -193,13 +210,21 @@ function Home() {
 			</section>
 
 			<section>
-				<div className="mx-auto max-w-6xl px-6 py-16 sm:py-20">
-					<div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+				<div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+					<div className="mb-12 max-w-2xl">
+						<p className="mb-3 text-xs font-medium tracking-[0.18em] text-muted uppercase">
+							Why Framework
+						</p>
+						<h2 className="text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
+							Laptops that adapt, not expire.
+						</h2>
+					</div>
+					<div className="grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-8">
 						{features.map((feature) => {
 							const Icon = feature.icon;
 							return (
 								<div className="flex flex-col gap-3" key={feature.title}>
-									<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent/10 text-accent">
+									<div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent-soft text-accent ring-1 ring-accent-soft-hover">
 										<Icon className="size-5" />
 									</div>
 									<h3 className="text-base font-semibold text-foreground">
@@ -216,14 +241,14 @@ function Home() {
 			<footer className="border-t border-foreground/10">
 				<div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-4 gap-y-2 px-6 py-8 text-sm text-muted">
 					<span>
-						Created by{" "}
+						🐧{" "}
 						<Link
 							className="ml-1"
 							href="https://x.com/daveycodez"
 							rel="noopener noreferrer"
 							target="_blank"
 						>
-							🐧 @daveycodez
+							@daveycodez
 						</Link>
 					</span>
 					<span aria-hidden className="text-foreground/20">
