@@ -65,7 +65,7 @@ export function AppHeader() {
 					className="flex items-center gap-1.5 text-base md:text-lg font-semibold tracking-tight text-foreground"
 					to="/"
 				>
-					<Gear className="size-5" />
+					<Gear className="size-5 text-accent" />
 					<span>design framework</span>
 				</Link>
 
