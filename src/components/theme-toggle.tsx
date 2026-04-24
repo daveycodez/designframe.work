@@ -1,15 +1,22 @@
-import { Moon, Sun } from "@gravity-ui/icons";
+import { Display, Moon, Sun } from "@gravity-ui/icons";
 import { Button, Dropdown, Label } from "@heroui/react";
 import { useHydrated } from "@tanstack/react-router";
 import { useTheme } from "next-themes";
+import type { ComponentType, SVGProps } from "react";
 
-const THEME_OPTIONS = [
-	{ id: "system", label: "System" },
-	{ id: "light", label: "Light" },
-	{ id: "dark", label: "Dark" },
-] as const;
+type ThemeId = "system" | "light" | "dark";
 
-type ThemeId = (typeof THEME_OPTIONS)[number]["id"];
+type ThemeOption = {
+	id: ThemeId;
+	label: string;
+	Icon: ComponentType<SVGProps<SVGSVGElement>>;
+};
+
+const THEME_OPTIONS: readonly ThemeOption[] = [
+	{ id: "system", label: "System", Icon: Display },
+	{ id: "light", label: "Light", Icon: Sun },
+	{ id: "dark", label: "Dark", Icon: Moon },
+];
 
 const isThemeId = (value: unknown): value is ThemeId =>
 	value === "system" || value === "light" || value === "dark";
@@ -27,7 +34,7 @@ export function ThemeToggle() {
 			<Button aria-label="Toggle theme" isIconOnly variant="ghost">
 				<CurrentIcon />
 			</Button>
-			<Dropdown.Popover className="min-w-[160px]">
+			<Dropdown.Popover>
 				<Dropdown.Menu
 					disallowEmptySelection
 					onSelectionChange={(keys) => {
@@ -38,9 +45,9 @@ export function ThemeToggle() {
 					selectedKeys={new Set([current])}
 					selectionMode="single"
 				>
-					{THEME_OPTIONS.map(({ id, label }) => (
+					{THEME_OPTIONS.map(({ id, label, Icon }) => (
 						<Dropdown.Item id={id} key={id} textValue={label}>
-							<Dropdown.ItemIndicator />
+							<Icon className="size-4 shrink-0 text-muted" />
 							<Label>{label}</Label>
 						</Dropdown.Item>
 					))}
