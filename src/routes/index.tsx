@@ -223,7 +223,7 @@ function Home() {
 							rel="noopener noreferrer"
 							target="_blank"
 						>
-							@daveycodez
+							🐧 @daveycodez
 						</Link>
 					</span>
 					<span aria-hidden className="text-foreground/20">
@@ -234,7 +234,7 @@ function Home() {
 						rel="noopener noreferrer"
 						target="_blank"
 					>
-						<LogoGithub />
+						<LogoGithub className="mr-2" />
 						GitHub
 					</Link>
 				</div>
