@@ -72,7 +72,7 @@ function Home() {
 								Pick a laptop
 							</h2>
 							<p className="mt-2 max-w-xl text-muted">
-								Three sizes. Same repairable, upgradeable philosophy.
+								Four models. Same repairable, upgradeable philosophy.
 							</p>
 						</div>
 						<Link className="text-sm" href="https://frame.work" target="_blank">
@@ -81,7 +81,7 @@ function Home() {
 						</Link>
 					</div>
 
-					<div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+					<div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
 						{LAPTOP_MODELS.map((model) => {
 							const isLive = model.status === "live";
 							const laptop = getLaptopById(model.id);

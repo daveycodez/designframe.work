@@ -253,5 +253,22 @@
 			"width": 948,
 			"height": 1008
 		}
+	},
+	{
+		"id": "plastic-graphite",
+		"label": "Graphite",
+		"color": "#000000",
+		"outline": "#000000",
+		"image": {
+			"src": "/images/expansion-cards/graphite.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
 	}
 ]

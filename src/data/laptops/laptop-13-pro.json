@@ -1,0 +1,42 @@
+{
+	"id": "laptop-13-pro",
+	"name": "Framework Laptop 13 Pro",
+	"expansionCardSize": { "width": 200, "height": 213 },
+	"expansionCardSlots": [
+		{
+			"slot": 1,
+			"position": { "x": 12, "y": 135, "rotate": 90 },
+			"scale": { "x": 0.68, "y": 0.7 }
+		},
+		{
+			"slot": 2,
+			"position": { "x": 1244, "y": 131, "rotate": -90 },
+			"scale": { "x": 0.68, "y": 0.7 }
+		},
+		{
+			"slot": 3,
+			"position": { "x": 12, "y": 323, "rotate": 90 },
+			"scale": { "x": 0.68, "y": 0.7 }
+		},
+		{
+			"slot": 4,
+			"position": { "x": 1244, "y": 318, "rotate": -90 },
+			"scale": { "x": 0.68, "y": 0.7 }
+		}
+	],
+	"backs": [
+		{
+			"id": "graphite",
+			"label": "Graphite",
+			"shell": "#2a2a2c",
+			"accent": "#1a1a1c",
+			"defaultExpansionCardId": "plastic-graphite",
+			"image": {
+				"src": "/images/laptop-13-pro/graphite.png",
+				"width": 1398,
+				"height": 1080
+			},
+			"view": { "x": -150, "y": -100, "width": 1700, "height": 1280 }
+		}
+	]
+}

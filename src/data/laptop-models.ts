@@ -1,5 +1,5 @@
 export type LaptopModel = {
-	id: "laptop-12" | "laptop-13" | "laptop-16";
+	id: "laptop-12" | "laptop-13" | "laptop-13-pro" | "laptop-16";
 	name: string;
 	tagline: string;
 	description: string;
@@ -24,6 +24,15 @@ export const LAPTOP_MODELS: ReadonlyArray<LaptopModel> = [
 		description:
 			"A 13.5-inch productivity laptop with swappable ports, user-upgradable memory, storage, and mainboard.",
 		image: "/images/laptop-13/backs/silver.png",
+		status: "live",
+	},
+	{
+		id: "laptop-13-pro",
+		name: "Framework Laptop 13 Pro",
+		tagline: "A pro-grade take on the 13",
+		description:
+			"A refined Framework Laptop 13 with a graphite finish, tuned for a premium, blacked-out look.",
+		image: "/images/laptop-13-pro/graphite.png",
 		status: "live",
 	},
 	{

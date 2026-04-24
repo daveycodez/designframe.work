@@ -12,6 +12,7 @@
 import type { ExpansionCardId } from "#/data/expansion-cards";
 import laptop12 from "./laptops/laptop-12.json";
 import laptop13 from "./laptops/laptop-13.json";
+import laptop13Pro from "./laptops/laptop-13-pro.json";
 import laptop16 from "./laptops/laptop-16.json";
 
 /** A rectangle in pixel coordinates of a back-finish photo. */
@@ -95,7 +96,11 @@ export type LaptopBack = {
 	view: LaptopRect;
 };
 
-export type LaptopId = "laptop-12" | "laptop-13" | "laptop-16";
+export type LaptopId =
+	| "laptop-12"
+	| "laptop-13"
+	| "laptop-13-pro"
+	| "laptop-16";
 
 export type Laptop = {
 	id: LaptopId;
@@ -116,6 +121,7 @@ export type Laptop = {
 export const LAPTOPS: ReadonlyArray<Laptop> = [
 	laptop12 as Laptop,
 	laptop13 as Laptop,
+	laptop13Pro as Laptop,
 	laptop16 as Laptop,
 ];
 

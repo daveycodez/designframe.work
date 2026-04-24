@@ -47,7 +47,6 @@ export const Route = createRootRoute({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	const navigate = useNavigate();
-	const router = useRouter();
 
 	return (
 		<html lang="en" suppressHydrationWarning className="dark">
@@ -57,7 +56,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<body className="flex min-h-screen flex-col bg-background text-foreground lg:h-dvh lg:min-h-0">
 				<RouterProvider
 					navigate={(to, options) => navigate({ to, ...options })}
-					useHref={(to) => router.buildLocation({ to }).href}
 				>
 					<AppHeader />
 					<main className="flex-1 lg:min-h-0">{children}</main>
