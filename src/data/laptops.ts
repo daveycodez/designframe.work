@@ -120,8 +120,8 @@ export type Laptop = {
 
 export const LAPTOPS: ReadonlyArray<Laptop> = [
 	laptop12 as Laptop,
-	laptop13 as Laptop,
 	laptop13Pro as Laptop,
+	laptop13 as Laptop,
 	laptop16 as Laptop,
 ];
 

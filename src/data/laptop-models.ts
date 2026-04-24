@@ -21,21 +21,21 @@ export const LAPTOP_MODELS: ReadonlyArray<LaptopModel> = [
 		status: "live",
 	},
 	{
-		id: "laptop-13",
-		name: "Framework Laptop 13",
-		tagline: "The most upgradeable laptop ever made",
-		description:
-			"A 13.5-inch productivity laptop with swappable ports, user-upgradable memory, storage, and mainboard.",
-		image: "/images/laptop-13/backs/silver.png",
-		status: "live",
-	},
-	{
 		id: "laptop-13-pro",
 		name: "Framework Laptop 13 Pro",
 		tagline: "A pro-grade take on the 13",
 		description:
 			"A refined Framework Laptop 13 with a graphite finish, tuned for a premium, blacked-out look.",
 		image: "/images/laptop-13-pro/backs/graphite.png",
+		status: "live",
+	},
+	{
+		id: "laptop-13",
+		name: "Framework Laptop 13",
+		tagline: "The most upgradeable laptop ever made",
+		description:
+			"A 13.5-inch productivity laptop with swappable ports, user-upgradable memory, storage, and mainboard.",
+		image: "/images/laptop-13/backs/silver.png",
 		status: "live",
 	},
 	{
