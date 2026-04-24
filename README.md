@@ -1,193 +1,174 @@
-Welcome to your new TanStack Start app! 
+# Design Framework
 
-# Getting Started
+A web configurator for [Framework](https://frame.work) laptops. Pick a model, a back-panel finish, and a color for every expansion card slot — then see exactly what the combo will look like before you order.
 
-To run this application:
+**Live:** https://designframe.work
+
+Built because I was ordering a Framework and couldn't commit to an expansion card colorway. Now I still can't, but at least I can see my indecision rendered in full color.
+
+## Features
+
+- **Four models** – Framework Laptop 12, 13, 13 Pro, and 16.
+- **Per-slot expansion card selection** – pick a different finish for each expansion slot, or bulk-select one color for every slot.
+- **Back-panel finishes** – each model ships with its real back-panel lineup (Silver, Black, Graphite, Sage, Lavender, Bubblegum, etc.).
+- **Live preview** – cards render as SVG overlays on the actual product photo, with per-slot rotation and scale, so what you see is what you get.
+- **Randomize** – one click shuffles the whole config, never repeats a color across slots, and never matches a card to the chassis color (so nothing disappears).
+- **Theme toggle** – System / Light / Dark, persisted via [`next-themes`](https://github.com/pacocoursey/next-themes).
+- **Fully prerendered** – every route is static HTML, served from Cloudflare Pages.
+
+## Tech stack
+
+- [TanStack Start](https://tanstack.com/start) (Vite + React 19) with file-based routing via [TanStack Router](https://tanstack.com/router).
+- [HeroUI v3](https://heroui.com) components (built on [React Aria Components](https://react-spectrum.adobe.com/react-aria/)), wired up to the router via `RouterProvider` so every HeroUI `Link` / `Menu` item routes client-side.
+- [Tailwind CSS v4](https://tailwindcss.com) with HeroUI's design tokens.
+- [`next-themes`](https://github.com/pacocoursey/next-themes) for theming.
+- [Bun](https://bun.sh) as the package manager.
+- [Cloudflare Pages](https://pages.cloudflare.com) for hosting (static prerender).
+
+## Getting started
 
 ```bash
 bun install
-bun --bun run dev
+bun dev
 ```
 
-# Building For Production
+Dev server runs at http://localhost:3000.
 
-To build this application for production:
+### Build
 
 ```bash
-bun --bun run build
+bun run build
 ```
 
-## Testing
+Output lands in:
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+- `dist/client/` – prerendered HTML + hashed client assets (this is what Cloudflare Pages serves).
+- `dist/server/` – the SSR bundle (not deployed, just used during prerender).
+
+### Test
 
 ```bash
-bun --bun run test
+bun run test
 ```
 
-## Styling
+## Project layout
 
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-### Removing Tailwind CSS
-
-If you prefer not to use Tailwind CSS:
-
-1. Remove the demo pages in `src/routes/demo/`
-2. Replace the Tailwind import in `src/styles.css` with your own styles
-3. Remove `tailwindcss()` from the plugins array in `vite.config.ts`
-4. Uninstall the packages: `bun install @tailwindcss/vite tailwindcss -D`
-
-
-
-## Routing
-
-This project uses [TanStack Router](https://tanstack.com/router) with file-based routing. Routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
+```
+src/
+  routes/                    # TanStack Router file-based routes
+    __root.tsx               # RouterProvider + ThemeProvider wrap
+    index.tsx                # Home page (laptop picker)
+    $laptop.tsx              # Per-laptop configurator page
+  components/
+    app-header.tsx           # Top nav + theme toggle
+    theme-toggle.tsx         # System/Light/Dark dropdown
+    framework/
+      product-viewer.tsx     # SVG compositor: laptop photo + expansion cards
+      configuration-panel.tsx # Back + per-slot color pickers, Randomize
+      option-card.tsx
+      section-header.tsx
+  data/
+    laptops.ts               # Laptop type + getLaptopById
+    laptop-models.ts         # LAPTOP_MODELS list used by nav + home
+    laptops/
+      laptop-12.json         # Per-model: image crop, card slots, backs
+      laptop-13.json
+      laptop-13-pro.json
+      laptop-16.json
+    expansion-cards.ts       # ExpansionCard type + catalogue
+    expansion-cards.json     # Expansion card catalogue (colors + photos)
+public/
+  images/
+    laptop-12/backs/*.png    # Back-panel photos per finish
+    laptop-13/backs/*.png
+    laptop-13-pro/*.png
+    laptop-16/backs/*.png
+    expansion-cards/*.png    # Card finish photos
 ```
 
-Then anywhere in your JSX you can use it like so:
+## Adding a new laptop, back finish, or expansion card
 
-```tsx
-<Link to="/about">About</Link>
-```
+Everything is data-driven. No component changes needed for normal content updates.
 
-This will create a link that will navigate to the `/about` route.
+### Add a new expansion card color
 
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
+1. Drop a `<color>.png` into `public/images/expansion-cards/`. Target dimensions are `2112 × 2580` with the card roughly centered (see existing cards for framing).
+2. Append an entry to `src/data/expansion-cards.json`:
+   ```jsonc
+   {
+     "id": "plastic-newcolor",
+     "label": "New Color",
+     "color": "#hexswatch",
+     "outline": "#hexswatch",
+     "image": {
+       "src": "/images/expansion-cards/newcolor.png",
+       "width": 2112,
+       "height": 2580
+     },
+     "imageCrop": { "x": 580, "y": 802, "width": 948, "height": 1008 }
+   }
+   ```
+3. It'll automatically show up for every laptop, since the catalogue is shared.
 
-### Using A Layout
+### Add a new back finish to an existing laptop
 
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you render `{children}` in the `shellComponent`.
+Edit that laptop's JSON (`src/data/laptops/laptop-13.json`, etc.) and append to `backs`:
 
-Here is an example layout that includes a header:
-
-```tsx
-import { HeadContent, Scripts, createRootRoute } from '@tanstack/react-router'
-
-export const Route = createRootRoute({
-  head: () => ({
-    meta: [
-      { charSet: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'My App' },
-    ],
-  }),
-  shellComponent: ({ children }) => (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <header>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-          </nav>
-        </header>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  ),
-})
-```
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-## Server Functions
-
-TanStack Start provides server functions that allow you to write server-side code that seamlessly integrates with your client components.
-
-```tsx
-import { createServerFn } from '@tanstack/react-start'
-
-const getServerTime = createServerFn({
-  method: 'GET',
-}).handler(async () => {
-  return new Date().toISOString()
-})
-
-// Use in a component
-function MyComponent() {
-  const [time, setTime] = useState('')
-  
-  useEffect(() => {
-    getServerTime().then(setTime)
-  }, [])
-  
-  return <div>Server time: {time}</div>
+```jsonc
+{
+  "id": "graphite",
+  "label": "Graphite",
+  "shell": "#2a2a2c",          // fallback swatch if photo fails to load
+  "accent": "#1a1a1c",
+  "defaultExpansionCardId": "plastic-graphite",
+  "image": {
+    "src": "/images/laptop-13/backs/graphite.png",
+    "width": 1290,
+    "height": 1290
+  },
+  "view": { "x": 0, "y": 153, "width": 1290, "height": 968 }
 }
 ```
 
-## API Routes
+`view` is the sub-rectangle (in image pixels) that tightly frames the laptop body — it drives the SVG viewBox. If the photo already has the laptop edge-to-edge, you can widen the view past the image bounds (negative `x` / `y`) to add virtual padding so it renders at a similar size to the other models.
 
-You can create API routes by using the `server` property in your route definitions:
+### Add a whole new laptop model
 
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
-import { json } from '@tanstack/react-start'
+1. Create `src/data/laptops/laptop-new.json` following the same shape as `laptop-13.json` (see the JSDoc on the types in `src/data/laptops.ts` — `expansionCardSize`, `expansionCardSlots` with `position` + `scale`, and `backs`).
+2. Register it in `src/data/laptops.ts`:
+   ```ts
+   import laptopNew from "./laptops/laptop-new.json";
+   // ...
+   export type LaptopId = "laptop-12" | "laptop-13" | "laptop-13-pro" | "laptop-16" | "laptop-new";
+   export const LAPTOPS = [laptop12, laptop13, laptop13Pro, laptop16, laptopNew] as const;
+   ```
+3. Add it to `LAPTOP_MODELS` in `src/data/laptop-models.ts` so the nav + home grid pick it up.
 
-export const Route = createFileRoute('/api/hello')({
-  server: {
-    handlers: {
-      GET: () => json({ message: 'Hello, World!' }),
-    },
-  },
-})
-```
+The `$laptop.tsx` route handles any id that resolves from `getLaptopById`, so no routing changes are needed.
 
-## Data Fetching
+## Deploying
 
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
+Deployed as a static site on Cloudflare Pages.
 
-For example:
+- **Build command:** `bun run build`
+- **Build output directory:** `dist/client`
 
-```tsx
-import { createFileRoute } from '@tanstack/react-router'
+That's the only setting that matters — the prerender produces real HTML for `/`, `/laptop-12`, `/laptop-13`, `/laptop-13-pro`, `/laptop-16`, so no Pages Function is needed.
 
-export const Route = createFileRoute('/people')({
-  loader: async () => {
-    const response = await fetch('https://swapi.dev/api/people')
-    return response.json()
-  },
-  component: PeopleComponent,
-})
+## Contributing
 
-function PeopleComponent() {
-  const data = Route.useLoaderData()
-  return (
-    <ul>
-      {data.results.map((person) => (
-        <li key={person.name}>{person.name}</li>
-      ))}
-    </ul>
-  )
-}
-```
+Issues and PRs welcome — especially:
 
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
+- New expansion card finishes (Framework drops colorways faster than I can ship them).
+- Better back-panel photos (some finishes are awkwardly cropped).
+- Slot-position refinements on any model where the cards don't quite line up with the chassis cutouts.
 
-# Demo files
+## Credits
 
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
+Product photos are Framework's own, used for preview purposes. All trademarks belong to their respective owners. This project is not affiliated with or endorsed by Framework Computer Inc.
 
-# Learn More
+Built by [@daveycodez](https://x.com/daveycodez).
 
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+## License
 
-For TanStack Start specific documentation, visit [TanStack Start](https://tanstack.com/start).
+MIT. See [LICENSE](./LICENSE).
