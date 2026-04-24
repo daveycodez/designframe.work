@@ -6,7 +6,7 @@ import { ConfigurationPanel } from "#/components/framework/configuration-panel";
 import { ProductViewer } from "#/components/framework/product-viewer";
 import type { ExpansionCardId } from "#/data/expansion-cards";
 import { getLaptopById, type Laptop } from "#/data/laptops";
-import { exportSvgAsPng } from "#/lib/export-png";
+import { copySvgAsPng, downloadSvgAsPng } from "#/lib/export-png";
 
 export const Route = createFileRoute("/$laptop")({
 	component: LaptopPage,
@@ -42,11 +42,17 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 		]),
 	) as Record<number, ExpansionCardId>;
 
-	const handleExport = async () => {
+	const handleDownload = async () => {
 		const svg = svgRef.current;
 		if (!svg) return;
 		const slug = laptop.name.toLowerCase().replace(/\s+/g, "-");
-		await exportSvgAsPng(svg, `${slug}-${back.id}.png`);
+		await downloadSvgAsPng(svg, `${slug}-${back.id}.png`);
+	};
+
+	const handleCopy = async () => {
+		const svg = svgRef.current;
+		if (!svg) return;
+		await copySvgAsPng(svg);
 	};
 
 	return (
@@ -59,7 +65,8 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 			/>
 			<ConfigurationPanel
 				laptop={laptop}
-				onExport={handleExport}
+				onCopy={handleCopy}
+				onDownload={handleDownload}
 				onReset={() => {
 					setUserBackId("");
 					setBulkCardId("");

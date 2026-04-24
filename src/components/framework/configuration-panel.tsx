@@ -1,10 +1,26 @@
-import { ArrowDownToLine, ArrowRotateLeft, Dice3 } from "@gravity-ui/icons";
-import { Button, ToggleButtonGroup } from "@heroui/react";
+import {
+	ArrowDownToLine,
+	ArrowRotateLeft,
+	ArrowUpFromSquare,
+	Check,
+	CheckShape,
+	Copy,
+	CopyCheck,
+	Dice3,
+} from "@gravity-ui/icons";
+import {
+	Button,
+	Dropdown,
+	Label,
+	Spinner,
+	ToggleButtonGroup,
+} from "@heroui/react";
 import { useState } from "react";
 import { OptionCard, OptionSwatch } from "#/components/framework/option-card";
 import { ConfigurationSection } from "#/components/framework/section-header";
 import { EXPANSION_CARDS, type ExpansionCardId } from "#/data/expansion-cards";
 import type { Laptop } from "#/data/laptops";
+import { canCopyImageToClipboard } from "#/lib/export-png";
 
 function shuffle<T>(items: ReadonlyArray<T>): T[] {
 	const copy = [...items];
@@ -23,7 +39,8 @@ type ConfigurationPanelProps = {
 	onSelectExpansionCard: (slot: number, id: ExpansionCardId) => void;
 	onSelectAllExpansionCards: (id: ExpansionCardId) => void;
 	onReset?: () => void;
-	onExport?: () => void | Promise<void>;
+	onDownload?: () => void | Promise<void>;
+	onCopy?: () => void | Promise<void>;
 };
 
 export function ConfigurationPanel({
@@ -34,9 +51,13 @@ export function ConfigurationPanel({
 	onSelectExpansionCard,
 	onSelectAllExpansionCards,
 	onReset,
-	onExport,
+	onDownload,
+	onCopy,
 }: ConfigurationPanelProps) {
 	const [isExporting, setIsExporting] = useState(false);
+	const [didJustCopy, setDidJustCopy] = useState(false);
+	const canCopy = canCopyImageToClipboard();
+	const hasExport = Boolean(onDownload) || (Boolean(onCopy) && canCopy);
 	const selectedBack = laptop.backs.find((b) => b.id === selectedBackId);
 
 	const firstSlotCardId =
@@ -84,23 +105,57 @@ export function ConfigurationPanel({
 							<ArrowRotateLeft />
 							Start Over
 						</Button>
-						{onExport ? (
-							<Button
-								isDisabled={isExporting}
-								onPress={async () => {
-									setIsExporting(true);
-									try {
-										await onExport();
-									} finally {
-										setIsExporting(false);
-									}
-								}}
-								size="sm"
-								variant="ghost"
-							>
-								<ArrowDownToLine />
-								{isExporting ? "Exporting…" : "Export"}
-							</Button>
+						{hasExport ? (
+							<Dropdown>
+								<Button isDisabled={isExporting} size="sm" variant="ghost">
+									{isExporting ? (
+										<Spinner size="sm" color="current" />
+									) : didJustCopy ? (
+										<CopyCheck />
+									) : (
+										<ArrowUpFromSquare />
+									)}
+									{didJustCopy ? "Copied!" : "Export"}
+								</Button>
+								<Dropdown.Popover className="min-w-[180px]">
+									<Dropdown.Menu
+										onAction={async (key) => {
+											const run =
+												key === "copy"
+													? onCopy
+													: key === "download"
+														? onDownload
+														: undefined;
+											if (!run) return;
+											setIsExporting(true);
+											try {
+												await run();
+												if (key === "copy") {
+													setDidJustCopy(true);
+													window.setTimeout(() => setDidJustCopy(false), 1500);
+												}
+											} catch (err) {
+												console.error("Export failed", err);
+											} finally {
+												setIsExporting(false);
+											}
+										}}
+									>
+										{onCopy && canCopy ? (
+											<Dropdown.Item id="copy" textValue="Copy to clipboard">
+												<Copy className="size-4 shrink-0 text-muted" />
+												<Label>Copy Image</Label>
+											</Dropdown.Item>
+										) : null}
+										{onDownload ? (
+											<Dropdown.Item id="download" textValue="Download PNG">
+												<ArrowDownToLine className="size-4 shrink-0 text-muted" />
+												<Label>Download PNG</Label>
+											</Dropdown.Item>
+										) : null}
+									</Dropdown.Menu>
+								</Dropdown.Popover>
+							</Dropdown>
 						) : null}
 					</div>
 				</div>

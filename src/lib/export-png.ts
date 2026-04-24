@@ -1,5 +1,6 @@
 /**
- * Rasterize an SVG element to a PNG file and trigger a download.
+ * Rasterize an SVG element to a PNG, either downloaded as a file or copied to
+ * the system clipboard.
  *
  * Every `<image href="...">` inside the SVG is first fetched and inlined as a
  * base64 data URL. Without this step browsers will often refuse to rasterize
@@ -23,11 +24,10 @@ async function fetchAsDataUrl(url: string): Promise<string> {
 	});
 }
 
-export async function exportSvgAsPng(
+export async function svgToPngBlob(
 	svg: SVGSVGElement,
-	filename: string,
 	scale = 2,
-): Promise<void> {
+): Promise<Blob> {
 	const clone = svg.cloneNode(true) as SVGSVGElement;
 
 	const images = Array.from(clone.querySelectorAll("image"));
@@ -89,19 +89,53 @@ export async function exportSvgAsPng(
 			canvas.toBlob((b) => resolve(b), "image/png");
 		});
 		if (!pngBlob) throw new Error("Failed to encode PNG");
-
-		const pngUrl = URL.createObjectURL(pngBlob);
-		try {
-			const a = document.createElement("a");
-			a.href = pngUrl;
-			a.download = filename;
-			document.body.appendChild(a);
-			a.click();
-			a.remove();
-		} finally {
-			URL.revokeObjectURL(pngUrl);
-		}
+		return pngBlob;
 	} finally {
 		URL.revokeObjectURL(svgUrl);
 	}
+}
+
+export function downloadBlob(blob: Blob, filename: string): void {
+	const url = URL.createObjectURL(blob);
+	try {
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = filename;
+		document.body.appendChild(a);
+		a.click();
+		a.remove();
+	} finally {
+		URL.revokeObjectURL(url);
+	}
+}
+
+export async function downloadSvgAsPng(
+	svg: SVGSVGElement,
+	filename: string,
+	scale = 2,
+): Promise<void> {
+	const blob = await svgToPngBlob(svg, scale);
+	downloadBlob(blob, filename);
+}
+
+export function canCopyImageToClipboard(): boolean {
+	return (
+		typeof navigator !== "undefined" &&
+		typeof navigator.clipboard?.write === "function" &&
+		typeof ClipboardItem !== "undefined"
+	);
+}
+
+export async function copySvgAsPng(
+	svg: SVGSVGElement,
+	scale = 2,
+): Promise<void> {
+	if (!canCopyImageToClipboard()) {
+		throw new Error("Clipboard image copy is not supported in this browser");
+	}
+	// Safari requires that the ClipboardItem be created synchronously inside
+	// the user-gesture callback, so we pass a promise for the blob rather
+	// than awaiting it first.
+	const item = new ClipboardItem({ "image/png": svgToPngBlob(svg, scale) });
+	await navigator.clipboard.write([item]);
 }
