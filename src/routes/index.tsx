@@ -55,10 +55,10 @@ function Home() {
 					<div className="mx-auto max-w-3xl text-center">
 						<div className="mb-6 inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-background/70 px-3 py-1 text-xs font-medium text-muted backdrop-blur">
 							<span className="h-1.5 w-1.5 rounded-full bg-accent" />
-							Configure a Framework laptop
+							Preview a Framework laptop
 						</div>
 						<h1 className="text-balance text-5xl font-semibold tracking-tight text-foreground sm:text-7xl">
-							Build your Framework.
+							Design your Framework.
 						</h1>
 						<p className="mx-auto mt-5 max-w-2xl text-balance text-lg text-muted sm:text-xl">
 							Explore finishes, expansion bay colors, and back panels across the
