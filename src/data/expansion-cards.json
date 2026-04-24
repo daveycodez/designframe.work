@@ -1,0 +1,257 @@
+[
+	{
+		"id": "aluminum-silver",
+		"label": "Silver",
+		"color": "#c8c9cc",
+		"outline": "#c8c9cc",
+		"image": {
+			"src": "/images/expansion-cards/silver.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-black",
+		"label": "Black",
+		"color": "#1a1a1a",
+		"outline": "#1a1a1a",
+		"image": {
+			"src": "/images/expansion-cards/black.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-lavender",
+		"label": "Lavender",
+		"color": "#c8bad9",
+		"outline": "#c8bad9",
+		"image": {
+			"src": "/images/expansion-cards/lavender.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-sage",
+		"label": "Sage",
+		"color": "#8ea684",
+		"outline": "#8ea684",
+		"image": {
+			"src": "/images/expansion-cards/sage.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-bubblegum",
+		"label": "Bubblegum",
+		"color": "#f2b5c2",
+		"outline": "#f2b5c2",
+		"image": {
+			"src": "/images/expansion-cards/bubblegum.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-gray",
+		"label": "Gray",
+		"color": "#e8e8e6",
+		"outline": "#e8e8e6",
+		"image": {
+			"src": "/images/expansion-cards/gray.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-orange",
+		"label": "Orange",
+		"color": "#f07b3a",
+		"outline": "#f07b3a",
+		"image": {
+			"src": "/images/expansion-cards/orange.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-green",
+		"label": "Green",
+		"color": "#2d7a3e",
+		"outline": "#2d7a3e",
+		"image": {
+			"src": "/images/expansion-cards/green.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-red",
+		"label": "Red",
+		"color": "#b02a2a",
+		"outline": "#b02a2a",
+		"image": {
+			"src": "/images/expansion-cards/red.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-translucent",
+		"label": "Translucent",
+		"color": "#eeefee",
+		"outline": "#eeefee",
+		"image": {
+			"src": "/images/expansion-cards/translucent.jpeg",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-translucent-black",
+		"label": "Translucent Black",
+		"color": "#2a2a2a",
+		"outline": "#2a2a2a",
+		"image": {
+			"src": "/images/expansion-cards/translucent-black.png",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-translucent-orange",
+		"label": "Translucent Orange",
+		"color": "#f5a878",
+		"outline": "#f5a878",
+		"image": {
+			"src": "/images/expansion-cards/translucent-orange.jpeg",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-translucent-purple",
+		"label": "Translucent Purple",
+		"color": "#7048c2",
+		"outline": "#7048c2",
+		"image": {
+			"src": "/images/expansion-cards/translucent-purple.jpeg",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-translucent-green",
+		"label": "Translucent Green",
+		"color": "#9ac98a",
+		"outline": "#9ac98a",
+		"image": {
+			"src": "/images/expansion-cards/translucent-green.jpeg",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	},
+	{
+		"id": "plastic-translucent-pink",
+		"label": "Translucent Pink",
+		"color": "#f5c8e0",
+		"outline": "#f5c8e0",
+		"image": {
+			"src": "/images/expansion-cards/translucent-pink.jpeg",
+			"width": 2112,
+			"height": 2580
+		},
+		"imageCrop": {
+			"x": 580,
+			"y": 802,
+			"width": 948,
+			"height": 1008
+		}
+	}
+]

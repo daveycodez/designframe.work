@@ -1,0 +1,94 @@
+{
+	"id": "laptop-12",
+	"name": "Framework Laptop 12",
+	"expansionCardSize": { "width": 200, "height": 213 },
+	"expansionCardSlots": [
+		{
+			"slot": 1,
+			"position": { "x": 121, "y": 379, "rotate": 90 },
+			"scale": { "x": 0.425, "y": 0.425 }
+		},
+		{
+			"slot": 2,
+			"position": { "x": 842, "y": 378, "rotate": -90 },
+			"scale": { "x": 0.425, "y": 0.425 }
+		},
+		{
+			"slot": 3,
+			"position": { "x": 121, "y": 494, "rotate": 90 },
+			"scale": { "x": 0.425, "y": 0.425 }
+		},
+		{
+			"slot": 4,
+			"position": { "x": 842, "y": 494, "rotate": -90 },
+			"scale": { "x": 0.425, "y": 0.425 }
+		}
+	],
+	"backs": [
+		{
+			"id": "black",
+			"label": "Black",
+			"shell": "#1a1a1a",
+			"accent": "#4a4a4a",
+			"defaultExpansionCardId": "plastic-black",
+			"image": {
+				"src": "/images/laptop-12/backs/black.png",
+				"width": 1056,
+				"height": 1290
+			},
+			"view": { "x": 12, "y": 225, "width": 1000, "height": 750 }
+		},
+		{
+			"id": "gray",
+			"label": "Gray",
+			"shell": "#e8e8e6",
+			"accent": "#a8a8a6",
+			"defaultExpansionCardId": "plastic-gray",
+			"image": {
+				"src": "/images/laptop-12/backs/gray.png",
+				"width": 1056,
+				"height": 1290
+			},
+			"view": { "x": 12, "y": 225, "width": 1000, "height": 750 }
+		},
+		{
+			"id": "lavender",
+			"label": "Lavender",
+			"shell": "#c8bad9",
+			"accent": "#8b7aa3",
+			"defaultExpansionCardId": "plastic-lavender",
+			"image": {
+				"src": "/images/laptop-12/backs/lavender.png",
+				"width": 1056,
+				"height": 1290
+			},
+			"view": { "x": 12, "y": 225, "width": 1000, "height": 750 }
+		},
+		{
+			"id": "bubblegum",
+			"label": "Bubblegum",
+			"shell": "#f2b5c2",
+			"accent": "#a8dde0",
+			"defaultExpansionCardId": "plastic-bubblegum",
+			"image": {
+				"src": "/images/laptop-12/backs/bubblegum.png",
+				"width": 1056,
+				"height": 1290
+			},
+			"view": { "x": 12, "y": 225, "width": 1000, "height": 750 }
+		},
+		{
+			"id": "sage",
+			"label": "Sage",
+			"shell": "#8ea684",
+			"accent": "#6e8b69",
+			"defaultExpansionCardId": "plastic-sage",
+			"image": {
+				"src": "/images/laptop-12/backs/sage.png",
+				"width": 1056,
+				"height": 1290
+			},
+			"view": { "x": 12, "y": 225, "width": 1000, "height": 750 }
+		}
+	]
+}

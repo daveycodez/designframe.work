@@ -1,0 +1,42 @@
+{
+	"id": "laptop-13",
+	"name": "Framework Laptop 13",
+	"expansionCardSize": { "width": 200, "height": 213 },
+	"expansionCardSlots": [
+		{
+			"slot": 1,
+			"position": { "x": 123, "y": 334, "rotate": 90 },
+			"scale": { "x": 0.51, "y": 0.53 }
+		},
+		{
+			"slot": 2,
+			"position": { "x": 1046, "y": 334, "rotate": -90 },
+			"scale": { "x": 0.51, "y": 0.53 }
+		},
+		{
+			"slot": 3,
+			"position": { "x": 123, "y": 476, "rotate": 90 },
+			"scale": { "x": 0.51, "y": 0.53 }
+		},
+		{
+			"slot": 4,
+			"position": { "x": 1046, "y": 476, "rotate": -90 },
+			"scale": { "x": 0.51, "y": 0.53 }
+		}
+	],
+	"backs": [
+		{
+			"id": "silver",
+			"label": "Silver",
+			"shell": "#d4d6d9",
+			"accent": "#a6a9ae",
+			"defaultExpansionCardId": "aluminum-silver",
+			"image": {
+				"src": "/images/laptop-13/backs/silver.png",
+				"width": 1290,
+				"height": 1290
+			},
+			"view": { "x": 0, "y": 153, "width": 1290, "height": 968 }
+		}
+	]
+}

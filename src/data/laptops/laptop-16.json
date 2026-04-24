@@ -1,0 +1,52 @@
+{
+	"id": "laptop-16",
+	"name": "Framework Laptop 16",
+	"expansionCardSize": { "width": 200, "height": 213 },
+	"expansionCardSlots": [
+		{
+			"slot": 1,
+			"position": { "x": 200, "y": 546, "rotate": 90 },
+			"scale": { "x": 0.27, "y": 0.285 }
+		},
+		{
+			"slot": 2,
+			"position": { "x": 799, "y": 545, "rotate": -90 },
+			"scale": { "x": 0.27, "y": 0.285 }
+		},
+		{
+			"slot": 3,
+			"position": { "x": 200, "y": 610, "rotate": 90 },
+			"scale": { "x": 0.27, "y": 0.285 }
+		},
+		{
+			"slot": 4,
+			"position": { "x": 799, "y": 610, "rotate": -90 },
+			"scale": { "x": 0.27, "y": 0.285 }
+		},
+		{
+			"slot": 5,
+			"position": { "x": 200, "y": 675, "rotate": 90 },
+			"scale": { "x": 0.27, "y": 0.285 }
+		},
+		{
+			"slot": 6,
+			"position": { "x": 799, "y": 675, "rotate": -90 },
+			"scale": { "x": 0.27, "y": 0.285 }
+		}
+	],
+	"backs": [
+		{
+			"id": "silver",
+			"label": "Silver",
+			"shell": "#d4d6d9",
+			"accent": "#a6a9ae",
+			"defaultExpansionCardId": "aluminum-silver",
+			"image": {
+				"src": "/images/laptop-16/backs/silver.png",
+				"width": 1056,
+				"height": 1290
+			},
+			"view": { "x": 116, "y": 336, "width": 831, "height": 623 }
+		}
+	]
+}
