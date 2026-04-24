@@ -56,7 +56,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<body className="flex min-h-screen flex-col bg-background text-foreground lg:h-dvh lg:min-h-0">
 				<ThemeProvider
 					attribute="class"
-					defaultTheme="light"
+					defaultTheme="system"
 					disableTransitionOnChange
 					enableSystem
 				>
