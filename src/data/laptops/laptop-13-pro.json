@@ -5,23 +5,23 @@
 	"expansionCardSlots": [
 		{
 			"slot": 1,
-			"position": { "x": 12, "y": 135, "rotate": 90 },
-			"scale": { "x": 0.68, "y": 0.7 }
+			"position": { "x": 12, "y": 215, "rotate": 90 },
+			"scale": { "x": 1.065, "y": 1.085 }
 		},
 		{
 			"slot": 2,
-			"position": { "x": 1244, "y": 131, "rotate": -90 },
-			"scale": { "x": 0.68, "y": 0.7 }
+			"position": { "x": 1919, "y": 212, "rotate": -90 },
+			"scale": { "x": 1.065, "y": 1.085 }
 		},
 		{
 			"slot": 3,
-			"position": { "x": 12, "y": 323, "rotate": 90 },
-			"scale": { "x": 0.68, "y": 0.7 }
+			"position": { "x": 12, "y": 507, "rotate": 90 },
+			"scale": { "x": 1.065, "y": 1.085 }
 		},
 		{
 			"slot": 4,
-			"position": { "x": 1244, "y": 318, "rotate": -90 },
-			"scale": { "x": 0.68, "y": 0.7 }
+			"position": { "x": 1920, "y": 505, "rotate": -90 },
+			"scale": { "x": 1.065, "y": 1.085 }
 		}
 	],
 	"backs": [
@@ -32,11 +32,11 @@
 			"accent": "#000000",
 			"defaultExpansionCardId": "graphite",
 			"image": {
-				"src": "/images/laptop-13-pro/graphite.png",
-				"width": 1398,
-				"height": 1080
+				"src": "/images/laptop-13-pro/backs/graphite.png",
+				"width": 2158,
+				"height": 1668
 			},
-			"view": { "x": -150, "y": -100, "width": 1700, "height": 1280 }
+			"view": { "x": -232, "y": -154, "width": 2625, "height": 1976 }
 		}
 	]
 }

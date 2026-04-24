@@ -147,7 +147,6 @@ function ExpansionCardOverlay({
 				clipPath={`url(#${clipId})`}
 				height={card.image.height}
 				href={card.image.src}
-				opacity={0.95}
 				preserveAspectRatio="none"
 				width={card.image.width}
 				x={0}

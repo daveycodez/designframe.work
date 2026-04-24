@@ -35,7 +35,7 @@ export const LAPTOP_MODELS: ReadonlyArray<LaptopModel> = [
 		tagline: "A pro-grade take on the 13",
 		description:
 			"A refined Framework Laptop 13 with a graphite finish, tuned for a premium, blacked-out look.",
-		image: "/images/laptop-13-pro/graphite.png",
+		image: "/images/laptop-13-pro/backs/graphite.png",
 		status: "live",
 	},
 	{
