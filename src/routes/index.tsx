@@ -206,6 +206,20 @@ function Home() {
 					</div>
 				</div>
 			</section>
+
+			<footer className="border-t border-foreground/10">
+				<div className="mx-auto flex max-w-6xl items-center justify-center px-6 py-8 text-sm text-muted">
+					Created by{" "}
+					<Link
+						className="ml-1"
+						href="https://x.com/daveycodez"
+						rel="noopener noreferrer"
+						target="_blank"
+					>
+						@daveycodez
+					</Link>
+				</div>
+			</footer>
 		</>
 	);
 }
