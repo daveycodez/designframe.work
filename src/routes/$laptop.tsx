@@ -21,20 +21,22 @@ function LaptopPage() {
 }
 
 function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
-	const emptySelections = Object.fromEntries(
-		laptop.expansionCardSlots.map(({ slot }) => [slot, ""]),
-	) as Record<number, ExpansionCardId | "">;
-
 	const [userBackId, setUserBackId] = useState<string>("");
-	const [userExpansionCards, setUserExpansionCards] =
-		useState<Record<number, ExpansionCardId | "">>(emptySelections);
+	// A bulk selection applies to every slot (including slots on laptops the
+	// user hasn't visited yet) and is superseded per-slot by `slotOverrides`.
+	// Tracking these separately keeps a bulk pick sticky when navigating
+	// between laptops with different slot counts.
+	const [bulkCardId, setBulkCardId] = useState<ExpansionCardId | "">("");
+	const [slotOverrides, setSlotOverrides] = useState<
+		Record<number, ExpansionCardId>
+	>({});
 
 	const back = laptop.backs.find((b) => b.id === userBackId) ?? laptop.backs[0];
 
 	const effectiveExpansionCards = Object.fromEntries(
 		laptop.expansionCardSlots.map(({ slot }) => [
 			slot,
-			userExpansionCards[slot] || back.defaultExpansionCardId,
+			slotOverrides[slot] || bulkCardId || back.defaultExpansionCardId,
 		]),
 	) as Record<number, ExpansionCardId>;
 
@@ -49,11 +51,16 @@ function LaptopConfigurator({ laptop }: { laptop: Laptop }) {
 				laptop={laptop}
 				onReset={() => {
 					setUserBackId("");
-					setUserExpansionCards(emptySelections);
+					setBulkCardId("");
+					setSlotOverrides({});
+				}}
+				onSelectAllExpansionCards={(id) => {
+					setBulkCardId(id);
+					setSlotOverrides({});
 				}}
 				onSelectBack={setUserBackId}
 				onSelectExpansionCard={(slot, id) => {
-					setUserExpansionCards((prev) => ({ ...prev, [slot]: id }));
+					setSlotOverrides((prev) => ({ ...prev, [slot]: id }));
 				}}
 				selectedBackId={back.id}
 				selectedExpansionCards={effectiveExpansionCards}

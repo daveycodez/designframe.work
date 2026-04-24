@@ -20,6 +20,7 @@ type ConfigurationPanelProps = {
 	onSelectBack: (id: string) => void;
 	selectedExpansionCards: Record<number, ExpansionCardId>;
 	onSelectExpansionCard: (slot: number, id: ExpansionCardId) => void;
+	onSelectAllExpansionCards: (id: ExpansionCardId) => void;
 	onReset?: () => void;
 };
 
@@ -29,6 +30,7 @@ export function ConfigurationPanel({
 	onSelectBack,
 	selectedExpansionCards,
 	onSelectExpansionCard,
+	onSelectAllExpansionCards,
 	onReset,
 }: ConfigurationPanelProps) {
 	const selectedBack = laptop.backs.find((b) => b.id === selectedBackId);
@@ -137,10 +139,7 @@ export function ConfigurationPanel({
 						selectionMode="single"
 						onSelectionChange={(keys) => {
 							const next = [...keys][0] as ExpansionCardId | undefined;
-							if (!next) return;
-							for (const { slot } of laptop.expansionCardSlots) {
-								onSelectExpansionCard(slot, next);
-							}
+							if (next) onSelectAllExpansionCards(next);
 						}}
 					>
 						{EXPANSION_CARDS.map((card) => (

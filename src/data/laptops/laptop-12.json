@@ -28,8 +28,8 @@
 		{
 			"id": "black",
 			"label": "Black",
-			"shell": "#1a1a1a",
-			"accent": "#4a4a4a",
+			"shell": "#4a4a4a",
+			"accent": "#1a1a1a",
 			"defaultExpansionCardId": "plastic-black",
 			"image": {
 				"src": "/images/laptop-12/backs/black.png",
