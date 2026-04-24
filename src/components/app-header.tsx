@@ -1,6 +1,8 @@
 import { Bars, Gear } from "@gravity-ui/icons";
 import { Button, Popover } from "@heroui/react";
 import { Link, useRouterState } from "@tanstack/react-router";
+
+import { ThemeToggle } from "#/components/theme-toggle";
 import { LAPTOP_MODELS } from "#/data/laptop-models";
 
 const navPill = "rounded-md px-3 py-1.5 text-sm transition-colors";
@@ -74,22 +76,25 @@ export function AppHeader() {
 					{navItems}
 				</nav>
 
-				<div className="sm:hidden">
-					<Popover>
-						<Button aria-label="Open menu" isIconOnly variant="ghost">
-							<Bars />
-						</Button>
-						<Popover.Content className="w-48">
-							<Popover.Dialog>
-								<nav
-									aria-label="Framework laptop model"
-									className="flex flex-col gap-1 text-muted"
-								>
-									{navItems}
-								</nav>
-							</Popover.Dialog>
-						</Popover.Content>
-					</Popover>
+				<div className="flex items-center gap-1">
+					<ThemeToggle />
+					<div className="sm:hidden">
+						<Popover>
+							<Button aria-label="Open menu" isIconOnly variant="ghost">
+								<Bars />
+							</Button>
+							<Popover.Content className="w-48">
+								<Popover.Dialog>
+									<nav
+										aria-label="Framework laptop model"
+										className="flex flex-col gap-1 text-muted"
+									>
+										{navItems}
+									</nav>
+								</Popover.Dialog>
+							</Popover.Content>
+						</Popover>
+					</div>
 				</div>
 			</div>
 		</header>

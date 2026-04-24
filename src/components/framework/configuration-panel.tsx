@@ -5,6 +5,15 @@ import { ConfigurationSection } from "#/components/framework/section-header";
 import { EXPANSION_CARDS, type ExpansionCardId } from "#/data/expansion-cards";
 import type { Laptop } from "#/data/laptops";
 
+function shuffle<T>(items: ReadonlyArray<T>): T[] {
+	const copy = [...items];
+	for (let i = copy.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[copy[i], copy[j]] = [copy[j] as T, copy[i] as T];
+	}
+	return copy;
+}
+
 type ConfigurationPanelProps = {
 	laptop: Laptop;
 	selectedBackId: string;
@@ -49,13 +58,15 @@ export function ConfigurationPanel({
 								const randomBack =
 									laptop.backs[Math.floor(Math.random() * laptop.backs.length)];
 								if (randomBack) onSelectBack(randomBack.id);
-								for (const { slot } of laptop.expansionCardSlots) {
-									const randomCard =
-										EXPANSION_CARDS[
-											Math.floor(Math.random() * EXPANSION_CARDS.length)
-										];
+								const matchingCardId = randomBack?.defaultExpansionCardId;
+								const available = matchingCardId
+									? EXPANSION_CARDS.filter((c) => c.id !== matchingCardId)
+									: EXPANSION_CARDS;
+								const shuffled = shuffle(available);
+								laptop.expansionCardSlots.forEach(({ slot }, index) => {
+									const randomCard = shuffled[index % shuffled.length];
 									if (randomCard) onSelectExpansionCard(slot, randomCard.id);
-								}
+								});
 							}}
 							size="sm"
 							variant="ghost"

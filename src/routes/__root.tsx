@@ -7,9 +7,9 @@ import {
 	Scripts,
 	type ToOptions,
 	useNavigate,
-	useRouter,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { ThemeProvider } from "next-themes";
 
 import { AppHeader } from "#/components/app-header";
 import appCss from "../styles.css?url";
@@ -49,17 +49,24 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 	const navigate = useNavigate();
 
 	return (
-		<html lang="en" suppressHydrationWarning className="dark">
+		<html lang="en" suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
 			<body className="flex min-h-screen flex-col bg-background text-foreground lg:h-dvh lg:min-h-0">
-				<RouterProvider
-					navigate={(to, options) => navigate({ to, ...options })}
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="light"
+					disableTransitionOnChange
+					enableSystem
 				>
-					<AppHeader />
-					<main className="flex-1 lg:min-h-0">{children}</main>
-				</RouterProvider>
+					<RouterProvider
+						navigate={(to, options) => navigate({ to, ...options })}
+					>
+						<AppHeader />
+						<main className="flex-1 lg:min-h-0">{children}</main>
+					</RouterProvider>
+				</ThemeProvider>
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",
